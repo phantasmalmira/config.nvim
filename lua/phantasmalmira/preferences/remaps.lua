@@ -12,20 +12,21 @@ vim.api.nvim_set_keymap('n', '<Space>', '<Nop>', { silent = true })
 vim.api.nvim_set_keymap('v', '<Space>', '<Nop>', { silent = true })
 
 -- Quick open settings
-vim.api.nvim_set_keymap('n', '<leader>.', '<Cmd>exe "e" stdpath("config") . "/init.lua"<CR>', { noremap = true, silent = true, desc = 'Open [.] init.lua' })
+vim.api.nvim_set_keymap('n', '<leader>.', '<Cmd>exe "e" stdpath("config") . "/init.lua"<CR>',
+  { noremap = true, silent = true, desc = 'Open [.] init.lua' })
 
 -- Telescope built-ins
 vim.keymap.set('n', '<leader>fh', require('telescope.builtin').oldfiles, { silent = true, desc = '[F]ile [H]istory' })
 vim.keymap.set(
   'n',
-  '<leader>/', 
+  '<leader>/',
   function()
     require('telescope.builtin').current_buffer_fuzzy_find(
       require('telescope.themes').get_dropdown({
         previewer = false,
       })
     )
-  end, 
+  end,
   { desc = '[/] Fuzzily search in current buffer]' }
 )
 vim.keymap.set('n', '<leader>sf', require('telescope.builtin').find_files, { desc = '[S]earch [F]iles' })
@@ -38,36 +39,49 @@ vim.keymap.set('n', '<leader>cp', require('telescope.builtin').commands, { desc 
 -- barbar.nvim
 vim.keymap.set('n', '<A-b>', '<Cmd>exe "BufferGoto" . v:count1<CR>', { noremap = true, silent = true, desc = '[B]uffer' })
 vim.keymap.set('n', '<leader>bl', '<Cmd>BufferLast<CR>', { noremap = true, silent = true, desc = '[B]uffer Last' })
-vim.keymap.set('n', '<leader>bh', '<Cmd>BufferPrevious<CR>', { noremap = true, silent = true, desc = '[B]uffer Previous' })
+vim.keymap.set('n', '<leader>bh', '<Cmd>BufferPrevious<CR>',
+  { noremap = true, silent = true, desc = '[B]uffer Previous' })
 vim.keymap.set('n', '<leader>bl', '<Cmd>BufferNext<CR>', { noremap = true, silent = true, desc = '[B]uffer Next' })
-vim.keymap.set('n', '<leader>b,', '<Cmd>BufferMovePrevious<CR>', { noremap = true, silent = true, desc = '[B]uffer Move Previous' })
-vim.keymap.set('n', '<leader>b.', '<Cmd>BufferMoveNext<CR>', { noremap = true, silent = true, desc = '[B]uffer Move Next' })
+vim.keymap.set('n', '<leader>b,', '<Cmd>BufferMovePrevious<CR>',
+  { noremap = true, silent = true, desc = '[B]uffer Move Previous' })
+vim.keymap.set('n', '<leader>b.', '<Cmd>BufferMoveNext<CR>',
+  { noremap = true, silent = true, desc = '[B]uffer Move Next' })
 abbr('bq', 'BufferClose')
 abbr('bqa', '%bd')
 abbr('bqo', 'BufferCloseAllButCurrentOrPinned')
 
 -- workspace.nvim
-vim.keymap.set('n', '<leader>ww', '<Cmd>Telescope workspaces<CR>', { noremap = true, silent = true, desc = '[W]orkspaces' })
+vim.keymap.set('n', '<leader>ww', '<Cmd>Telescope workspaces<CR>',
+  { noremap = true, silent = true, desc = '[W]orkspaces' })
 
 -- persistence.nvim
 vim.keymap.set(
   'n',
-  '<leader>ls', 
+  '<leader>ls',
   function()
     require('persistence').load({ last = true })
-  end, 
+  end,
   { noremap = true, silent = true, desc = '[L]ast [S]ession' }
 )
 
 -- toggleterm.nvim
-vim.keymap.set('n', '<leader>`', '<Cmd>exe v:count1 . "ToggleTerm"<CR>', { noremap = true, silent = true, desc = '[T]oggle [T]erminal' })
+vim.keymap.set('n', '<leader>`', '<Cmd>exe v:count1 . "ToggleTerm"<CR>',
+  { noremap = true, silent = true, desc = '[T]oggle [T]erminal' })
+vim.keymap.set('t', '<Esc>', '<C-\\><C-n>', { silent = true })
 
 -- dashboard.nvim
 vim.keymap.set('n', '<leader>nf', '<Cmd>DashboardNewFile<CR>', { noremap = true, silent = true, desc = '[N]ew [F]ile' })
+vim.keymap.set('n', '<leader>db', '<Cmd>Dashboard<CR>', { noremap = true, silent = true, desc = '[D]ashboard' })
 
 -- telescope-file-browser.nvim
-vim.keymap.set('n', '<leader>fb', '<Cmd>Telescope file_browser<CR>', { noremap = true, silent = true, desc = '[F]ile [B]rowser' })
+vim.keymap.set('n', '<leader>fb', '<Cmd>Telescope file_browser<CR>',
+  { noremap = true, silent = true, desc = '[F]ile [B]rowser' })
 
 -- diagnostics
-vim.keymap.set('n', '<leader>dp', vim.diagnostic.goto_prev, { noremap = true, silent = true, desc = '[D]iagnostic [P]revious' })
-vim.keymap.set('n', '<leader>dn', vim.diagnostic.goto_next, { noremap = true, silent = true, desc = '[D]iagnostic [N]ext' })
+vim.keymap.set('n', '<leader>dp', vim.diagnostic.goto_prev,
+  { noremap = true, silent = true, desc = '[D]iagnostic [P]revious' })
+vim.keymap.set('n', '<leader>dn', vim.diagnostic.goto_next,
+  { noremap = true, silent = true, desc = '[D]iagnostic [N]ext' })
+
+-- nvim-tree
+vim.keymap.set('n', '<leader>ft', '<Cmd>NvimTreeToggle<CR>', { noremap = true, silent = true, desc = '[F]ile [T]ree' })

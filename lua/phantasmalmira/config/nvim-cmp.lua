@@ -1,12 +1,30 @@
 return function()
   local cmp = require('cmp')
   local luasnip = require('luasnip')
+  local lspkind = require('lspkind')
+  local lspkind_format = lspkind.cmp_format({ mode = 'symbol_text', maxwidth = 50, preset = 'codicons' })
+  vim.cmd('highlight! link CmpItemMenu String')
 
   cmp.setup({
     snippet = {
       expand = function(args)
         luasnip.lsp_expand(args.body)
       end,
+    },
+    formatting = {
+      fields = { 'kind', 'abbr', 'menu' },
+      format = function(entry, vim_item)
+        local kind = lspkind_format(entry, vim_item)
+        local strings = vim.split(kind.kind, '%s', { trimempty = true })
+        kind.kind = ' ' .. strings[1] .. ' '
+        kind.menu = ' ' .. strings[2] .. ' '
+        return kind
+      end
+    },
+    window = {
+      completion = {
+        side_padding = 0,
+      }
     },
     mapping = cmp.mapping.preset.insert {
       ['<C-d>'] = cmp.mapping.scroll_docs(-4),

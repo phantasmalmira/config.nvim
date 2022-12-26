@@ -35,4 +35,5 @@ vim.o.completeopt = 'menuone,noselect'
 
 -- Set colorscheme
 vim.o.termguicolors = true
-vim.api.nvim_command('colorscheme catppuccin-frappe')
+vim.o.background = 'dark'
+vim.api.nvim_command('colorscheme oxocarbon')

@@ -2,15 +2,17 @@ return {
   options = {
     icons_enabled = true,
     globalstatus = true,
-    theme = 'catppuccin',
     section_separators = { left = '', right = '' },
-    component_separators = '|',
+    component_separators = { left = '', right = '' },
+    disabled_filetypes = { 'NvimTree' },
   },
   sections = {
     lualine_a = {
       {
         'mode',
-        separator = { left = '' },
+        fmt = function (str)
+          return str:sub(1,1)
+        end
       },
     },
     lualine_b = {
@@ -26,7 +28,9 @@ return {
     lualine_x = {},
     lualine_y = { 'filetype', 'progress' },
     lualine_z = {
-      { 'location', separator = { right = '' }, left_padding = 2 },
+      {
+        'location',
+      },
     },
   },
   inactive_sections = {

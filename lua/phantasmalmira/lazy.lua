@@ -1,12 +1,12 @@
 -- Install lazy.nvim
-local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
 if not vim.loop.fs_stat(lazypath) then
   vim.fn.system({
-    "git",
-    "clone",
-    "--filter=blob:none",
-    "--single-branch",
-    "https://github.com/folke/lazy.nvim.git",
+    'git',
+    'clone',
+    '--filter=blob:none',
+    '--single-branch',
+    'https://github.com/folke/lazy.nvim.git',
     lazypath,
   })
 end
@@ -31,7 +31,8 @@ require('lazy').setup({
     dependencies = {
       'hrsh7th/cmp-nvim-lsp',
       'L3MON4D3/LuaSnip',
-      'saadparwaiz1/cmp_luasnip'
+      'saadparwaiz1/cmp_luasnip',
+      'onsails/lspkind.nvim',
     },
     event = { 'BufReadPre' },
     config = require('phantasmalmira.config.nvim-cmp'),
@@ -69,7 +70,12 @@ require('lazy').setup({
   {
     'catppuccin/nvim',
     name = 'catppuccin',
+    lazy = true,
     config = require('phantasmalmira.config.catppuccin'),
+  },
+  {
+    'nyoom-engineering/oxocarbon.nvim',
+    lazy = true,
   },
   -- lualine
   {
@@ -121,7 +127,7 @@ require('lazy').setup({
   -- markdown-prview.nvim
   {
     'iamcco/markdown-preview.nvim',
-    build = function() vim.fn["mkdp#util#install"]() end,
+    build = function() vim.fn['mkdp#util#install']() end,
     ft = { 'markdown' },
   },
   -- leap.nvim
@@ -154,9 +160,15 @@ require('lazy').setup({
   },
   -- persistence.nvim
   {
-    "folke/persistence.nvim",
+    'folke/persistence.nvim',
     config = function()
-      require("persistence").setup()
+      require('persistence').setup()
     end,
+  },
+  -- nvim-tree.lua
+  {
+    'nvim-tree/nvim-tree.lua',
+    dependencies = { 'nvim-tree/nvim-web-devicons' },
+    config = require('phantasmalmira.config.nvim-tree'),
   },
 })
