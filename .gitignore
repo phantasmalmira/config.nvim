@@ -1,3 +1,2 @@
-*
-!init.lua
-!.gitignore
+/lazy-lock.json
+/sessions
