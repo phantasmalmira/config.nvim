@@ -1,19 +1,3 @@
--- Color scheme
-require('catppuccin').setup({
-  transparent_background = true,
-  integrations = {
-    telescope = true,
-  },
-})
-
--- Set colorscheme
-vim.o.termguicolors = true
-vim.api.nvim_command('colorscheme catppuccin-frappe')
-
--- Disable netrw
-vim.g.loaded_netrw = 1
-vim.g.loaded_netrwPlugin = 1
-
 -- Enable linebreak
 vim.o.linebreak = true
 
@@ -48,3 +32,7 @@ vim.wo.signcolumn = 'yes'
 
 -- Set completeopt to have a better completion experience
 vim.o.completeopt = 'menuone,noselect'
+
+-- Set colorscheme
+vim.o.termguicolors = true
+vim.api.nvim_command('colorscheme catppuccin-frappe')

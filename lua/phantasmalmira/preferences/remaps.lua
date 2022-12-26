@@ -43,11 +43,11 @@ vim.keymap.set('n', '<leader>bl', '<Cmd>BufferNext<CR>', { noremap = true, silen
 vim.keymap.set('n', '<leader>b,', '<Cmd>BufferMovePrevious<CR>', { noremap = true, silent = true, desc = '[B]uffer Move Previous' })
 vim.keymap.set('n', '<leader>b.', '<Cmd>BufferMoveNext<CR>', { noremap = true, silent = true, desc = '[B]uffer Move Next' })
 abbr('bq', 'BufferClose')
-abbr('bqa', 'BufferWipeout')
+abbr('bqa', '%bd')
 abbr('bqo', 'BufferCloseAllButCurrentOrPinned')
 
 -- workspace.nvim
-vim.keymap.set('n', '<leader>ws', '<Cmd>Telescope workspaces<CR>', { noremap = true, silent = true, desc = '[W]ork [S]paces' })
+vim.keymap.set('n', '<leader>ww', '<Cmd>Telescope workspaces<CR>', { noremap = true, silent = true, desc = '[W]orkspaces' })
 
 -- persistence.nvim
 vim.keymap.set(

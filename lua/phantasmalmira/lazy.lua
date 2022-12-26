@@ -28,9 +28,9 @@ require('lazy').setup({
   -- Autocompletion
   {
     'hrsh7th/nvim-cmp',
-    dependencies = { 
-      'hrsh7th/cmp-nvim-lsp', 
-      'L3MON4D3/LuaSnip', 
+    dependencies = {
+      'hrsh7th/cmp-nvim-lsp',
+      'L3MON4D3/LuaSnip',
       'saadparwaiz1/cmp_luasnip'
     },
     event = { 'BufReadPre' },
@@ -52,15 +52,15 @@ require('lazy').setup({
     event = { 'BufReadPre' },
   },
   -- Git related plugins
-  { 
+  {
     'tpope/vim-fugitive',
     event = { 'BufReadPre' },
   },
-  { 
+  {
     'tpope/vim-rhubarb',
     event = { 'BufReadPre' },
   },
-  { 
+  {
     'lewis6991/gitsigns.nvim',
     event = { 'BufReadPre' },
     config = require('phantasmalmira.config.gitsigns'),
@@ -111,7 +111,6 @@ require('lazy').setup({
   {
     'akinsho/flutter-tools.nvim',
     dependencies = { 'nvim-lua/plenary.nvim' },
-    ft = { 'dart' },
     config = require('phantasmalmira.config.flutter-tools'),
   },
   -- nvim-telescope/telescope-file-browser.nvim

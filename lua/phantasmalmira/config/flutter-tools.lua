@@ -1,4 +1,4 @@
-return function() 
+return function()
   require('flutter-tools').setup({
     lsp = {
       color = {
