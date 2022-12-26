@@ -161,6 +161,7 @@ require('lazy').setup({
   -- persistence.nvim
   {
     'folke/persistence.nvim',
+    event = { 'VeryLazy' },
     config = function()
       require('persistence').setup()
     end,
@@ -170,5 +171,18 @@ require('lazy').setup({
     'nvim-tree/nvim-tree.lua',
     dependencies = { 'nvim-tree/nvim-web-devicons' },
     config = require('phantasmalmira.config.nvim-tree'),
+  },
+  {
+    'rcarriga/nvim-notify',
+    config = require('phantasmalmira.config.nvim-notify'),
+  },
+  -- noice.nvim
+  {
+    'folke/noice.nvim',
+    dependencies = {
+      'MunifTanjim/nui.nvim',
+      'rcarriga/nvim-notify',
+    },
+    config = require('phantasmalmira.config.noice'),
   },
 })
