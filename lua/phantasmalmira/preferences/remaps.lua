@@ -15,7 +15,12 @@ vim.api.nvim_set_keymap('v', '<Space>', '<Nop>', { silent = true })
 vim.api.nvim_set_keymap('n', '<leader>.', '<Cmd>exe "e" stdpath("config") . "/init.lua"<CR>',
   { noremap = true, silent = true, desc = 'Open [.] init.lua' })
 
+-- Package manager
+vim.keymap.set('n', '<leader>pm', '<Cmd>Lazy<CR>', { desc = '[P]ackage [M]anager' })
+
 -- Telescope built-ins
+vim.keymap.set('n', '<leader>t', function() require('telescope.builtin').builtin({ include_extensions = true }) end,
+  { silent = true, desc = '[T]elescope' })
 vim.keymap.set('n', '<leader>fh', require('telescope.builtin').oldfiles, { silent = true, desc = '[F]ile [H]istory' })
 vim.keymap.set(
   'n',
@@ -51,7 +56,7 @@ abbr('bqa', '%bd')
 abbr('bqo', 'BufferCloseAllButCurrentOrPinned')
 
 -- workspace.nvim
-vim.keymap.set('n', '<leader>ww', '<Cmd>Telescope workspaces<CR>',
+vim.keymap.set('n', '<leader>ww', require('telescope').extensions.workspaces.workspaces,
   { noremap = true, silent = true, desc = '[W]orkspaces' })
 
 -- persistence.nvim
@@ -69,12 +74,12 @@ vim.keymap.set('n', '<leader>`', '<Cmd>exe v:count1 . "ToggleTerm"<CR>',
   { noremap = true, silent = true, desc = '[T]oggle [T]erminal' })
 vim.keymap.set('t', '<Esc>', '<C-\\><C-n>', { silent = true })
 
--- dashboard.nvim
-vim.keymap.set('n', '<leader>nf', '<Cmd>DashboardNewFile<CR>', { noremap = true, silent = true, desc = '[N]ew [F]ile' })
-vim.keymap.set('n', '<leader>db', '<Cmd>Dashboard<CR>', { noremap = true, silent = true, desc = '[D]ashboard' })
+-- alpha.nvim
+vim.keymap.set('n', '<leader>nf', '<Cmd>ene<CR>', { noremap = true, silent = true, desc = '[N]ew [F]ile' })
+vim.keymap.set('n', '<leader>db', '<Cmd>Alpha<CR>', { noremap = true, silent = true, desc = '[D]ashboard' })
 
 -- telescope-file-browser.nvim
-vim.keymap.set('n', '<leader>fb', '<Cmd>Telescope file_browser<CR>',
+vim.keymap.set('n', '<leader>fb', require('telescope').extensions.file_browser.file_browser,
   { noremap = true, silent = true, desc = '[F]ile [B]rowser' })
 
 -- diagnostics

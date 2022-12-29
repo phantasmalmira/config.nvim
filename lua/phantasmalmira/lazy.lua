@@ -12,7 +12,34 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.runtimepath:prepend(lazypath)
 
+local lazy_config = {
+  checker = {
+    enabled = true,
+  }
+}
+
 require('lazy').setup({
+  -- Themes
+  {
+    'catppuccin/nvim',
+    name = 'catppuccin',
+    lazy = false,
+    priority = 1000,
+    config = require('phantasmalmira.config.catppuccin'),
+  },
+  {
+    'nyoom-engineering/oxocarbon.nvim',
+    lazy = true,
+  },
+  -- which-key
+  {
+    'folke/which-key.nvim',
+  },
+  -- dressing.nvim
+  {
+    'stevearc/dressing.nvim',
+    event = { 'VeryLazy' },
+  },
   -- LSP neovim/nvim-lspconfig
   {
     'neovim/nvim-lspconfig',
@@ -34,7 +61,7 @@ require('lazy').setup({
       'saadparwaiz1/cmp_luasnip',
       'onsails/lspkind.nvim',
     },
-    event = { 'BufReadPre' },
+    event = { 'InsertEnter' },
     config = require('phantasmalmira.config.nvim-cmp'),
   },
   -- tree-sitter
@@ -66,17 +93,6 @@ require('lazy').setup({
     event = { 'BufReadPre' },
     config = require('phantasmalmira.config.gitsigns'),
   },
-  -- Themes
-  {
-    'catppuccin/nvim',
-    name = 'catppuccin',
-    lazy = true,
-    config = require('phantasmalmira.config.catppuccin'),
-  },
-  {
-    'nyoom-engineering/oxocarbon.nvim',
-    lazy = true,
-  },
   -- lualine
   {
     'nvim-lualine/lualine.nvim',
@@ -85,7 +101,6 @@ require('lazy').setup({
   -- indentation guides
   {
     'lukas-reineke/indent-blankline.nvim',
-    event = { 'VeryLazy' },
     config = require('phantasmalmira.config.indent-blankline'),
   },
   -- commenting keys
@@ -97,32 +112,38 @@ require('lazy').setup({
   -- tabstops auto-detection
   {
     'tpope/vim-sleuth',
-    event = { 'VeryLazy' },
+    event = { 'BufReadPre' },
   },
   -- Telescope
   {
     'nvim-telescope/telescope.nvim',
     branch = '0.1.x',
+    lazy = true,
+    cmd = { 'Telescope' },
     dependencies = { 'nvim-lua/plenary.nvim' },
-    event = { 'VeryLazy' },
     config = require('phantasmalmira.config.telescope'),
   },
   -- Telescope fuzzy file finder
   {
     'nvim-telescope/telescope-fzf-native.nvim',
+    dependencies = { 'nvim-telescope/telescope.nvim' },
     build = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build',
-    event = { 'VeryLazy' },
+    lazy = true,
+    config = require('phantasmalmira.config.telescope-fzf-native'),
   },
   -- Flutter tools
   {
     'akinsho/flutter-tools.nvim',
-    dependencies = { 'nvim-lua/plenary.nvim' },
+    dependencies = { 'nvim-lua/plenary.nvim', 'nvim-telescope/telescope.nvim' },
+    ft = { 'dart' },
     config = require('phantasmalmira.config.flutter-tools'),
   },
   -- nvim-telescope/telescope-file-browser.nvim
   {
     'nvim-telescope/telescope-file-browser.nvim',
-    event = { 'VeryLazy' },
+    lazy = true,
+    dependencies = { 'nvim-telescope/telescope.nvim' },
+    config = require('phantasmalmira.config.telescope-file-browser'),
   },
   -- markdown-prview.nvim
   {
@@ -133,7 +154,6 @@ require('lazy').setup({
   -- leap.nvim
   {
     'ggandor/leap.nvim',
-    event = { 'BufEnter' },
     config = require('phantasmalmira.config.leap'),
   },
   -- barbar.nvim
@@ -141,10 +161,11 @@ require('lazy').setup({
     'romgrk/barbar.nvim',
     dependencies = { 'nvim-tree/nvim-web-devicons' },
   },
-  -- dashboard.nvim
+  -- alpha.nvim
   {
-    'glepnir/dashboard-nvim',
-    config = require('phantasmalmira.config.dashboard'),
+    'goolord/alpha-nvim',
+    config = require('phantasmalmira.config.alpha'),
+    dependencies = { 'nvim-tree/nvim-web-devicons' },
   },
   -- toggleterm.nvim
   {
@@ -155,13 +176,14 @@ require('lazy').setup({
   -- workspaces.nvim
   {
     'natecraddock/workspaces.nvim',
-    event = { 'VeryLazy' },
+    lazy = true,
     config = require('phantasmalmira.config.workspaces'),
   },
   -- persistence.nvim
   {
     'folke/persistence.nvim',
-    event = { 'VeryLazy' },
+    lazy = true,
+    event = { 'BufReadPre' },
     config = function()
       require('persistence').setup()
     end,
@@ -170,11 +192,13 @@ require('lazy').setup({
   {
     'nvim-tree/nvim-tree.lua',
     dependencies = { 'nvim-tree/nvim-web-devicons' },
+    cmd = { 'NvimTreeToggle' },
     config = require('phantasmalmira.config.nvim-tree'),
   },
   {
     'rcarriga/nvim-notify',
     config = require('phantasmalmira.config.nvim-notify'),
+    lazy = true,
   },
   -- noice.nvim
   {
@@ -183,6 +207,7 @@ require('lazy').setup({
       'MunifTanjim/nui.nvim',
       'rcarriga/nvim-notify',
     },
+    lazy = true,
     config = require('phantasmalmira.config.noice'),
   },
-})
+}, lazy_config)

@@ -1,4 +1,4 @@
-return function() 
+return function()
   local telescope = require('telescope')
   telescope.setup({
     defaults = {
@@ -10,7 +10,7 @@ return function()
       },
     },
   })
-  telescope.load_extension('file_browser')
-  telescope.load_extension('fzf')
-  telescope.load_extension('notify')
+  require('lazy').load({
+    plugins = { 'telescope-fzf-native.nvim', 'telescope-file-browser.nvim', 'workspaces.nvim' }
+  })
 end

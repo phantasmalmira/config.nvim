@@ -4,20 +4,25 @@ return {
     globalstatus = true,
     section_separators = { left = '', right = '' },
     component_separators = { left = '', right = '' },
-    disabled_filetypes = { 'NvimTree' },
+    disabled_filetypes = { 'NvimTree', 'alpha' },
   },
   sections = {
     lualine_a = {
       {
         'mode',
-        fmt = function (str)
-          return str:sub(1,1)
-        end
+        fmt = function(str)
+          return str:sub(1, 1)
+        end,
+        separator = { left = ' ', right = '' },
       },
     },
     lualine_b = {
-      'filename',
-      'branch',
+      {
+        'filename',
+      },
+      {
+        'branch',
+      },
       {
         'diagnostics',
         source = { 'nvim_diagnostic' },
@@ -25,11 +30,23 @@ return {
       },
     },
     lualine_c = { 'fileformat' },
-    lualine_x = {},
-    lualine_y = { 'filetype', 'progress' },
+    lualine_x = {
+      {
+        require('lazy.status').updates,
+        cond = require('lazy.status').has_updates,
+        fmt = function(str)
+          return str .. ' Updates'
+        end
+      },
+    },
+    lualine_y = {
+      'filetype',
+      'progress',
+    },
     lualine_z = {
       {
         'location',
+        separator = { left = ' ', right = ' ' }
       },
     },
   },

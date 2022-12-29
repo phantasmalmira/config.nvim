@@ -32,7 +32,7 @@ return function()
       shortcut = 'SPC w w' },
     { icon = '  ',
       desc = 'Search File                             ',
-      action = 'Telescope find_files',
+      action = function() require('telescope.builtin').fd() end,
       shortcut = 'SPC s f' },
   }
 end

@@ -13,6 +13,9 @@ vim.o.hlsearch = false
 -- Make line numbers default
 vim.wo.number = true
 
+-- set relative numbers
+vim.wo.relativenumber = true
+
 -- Enable mouse mode
 vim.o.mouse = 'a'
 
@@ -35,5 +38,3 @@ vim.o.completeopt = 'menuone,noselect'
 
 -- Set colorscheme
 vim.o.termguicolors = true
-vim.o.background = 'dark'
-vim.api.nvim_command('colorscheme oxocarbon')
