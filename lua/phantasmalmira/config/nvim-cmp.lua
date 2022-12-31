@@ -2,6 +2,7 @@ return function()
   local cmp = require('cmp')
   local luasnip = require('luasnip')
   local lspkind = require('lspkind')
+  local cmp_autopairs = require('nvim-autopairs.completion.cmp')
   local lspkind_format = lspkind.cmp_format({ mode = 'symbol_text', maxwidth = 50, preset = 'codicons' })
   vim.cmd('highlight! link CmpItemMenu String')
 
@@ -58,4 +59,8 @@ return function()
       { name = 'luasnip' },
     },
   })
+  cmp.event:on(
+    'confirm_done',
+    cmp_autopairs.on_confirm_done()
+  )
 end

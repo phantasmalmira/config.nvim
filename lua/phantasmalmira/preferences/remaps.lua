@@ -87,6 +87,8 @@ vim.keymap.set('n', '<leader>dp', vim.diagnostic.goto_prev,
   { noremap = true, silent = true, desc = '[D]iagnostic [P]revious' })
 vim.keymap.set('n', '<leader>dn', vim.diagnostic.goto_next,
   { noremap = true, silent = true, desc = '[D]iagnostic [N]ext' })
+vim.keymap.set('n', '<leader>dv', vim.diagnostic.open_float,
+  { noremap = true, silent = true, desc = '[D]iagnostic [V]iew' })
 
 -- nvim-tree
 vim.keymap.set('n', '<leader>ft', '<Cmd>NvimTreeToggle<CR>', { noremap = true, silent = true, desc = '[F]ile [T]ree' })

@@ -34,6 +34,8 @@ require('lazy').setup({
   -- which-key
   {
     'folke/which-key.nvim',
+    config = true,
+    event = { 'VeryLazy' },
   },
   -- dressing.nvim
   {
@@ -60,6 +62,7 @@ require('lazy').setup({
       'L3MON4D3/LuaSnip',
       'saadparwaiz1/cmp_luasnip',
       'onsails/lspkind.nvim',
+      'windwp/nvim-autopairs',
     },
     event = { 'InsertEnter' },
     config = require('phantasmalmira.config.nvim-cmp'),
@@ -127,14 +130,25 @@ require('lazy').setup({
   {
     'nvim-telescope/telescope-fzf-native.nvim',
     dependencies = { 'nvim-telescope/telescope.nvim' },
-    build = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build',
+    build = function(_)
+      local win32 = vim.fn.has('win32') == 1
+      if win32 then
+        vim.cmd('!cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build')
+      else
+        vim.cmd('!make')
+      end
+    end,
     lazy = true,
     config = require('phantasmalmira.config.telescope-fzf-native'),
   },
   -- Flutter tools
   {
     'akinsho/flutter-tools.nvim',
-    dependencies = { 'nvim-lua/plenary.nvim', 'nvim-telescope/telescope.nvim' },
+    dependencies = {
+      'nvim-lua/plenary.nvim',
+      'nvim-telescope/telescope.nvim',
+      'mfussenegger/nvim-dap',
+    },
     ft = { 'dart' },
     config = require('phantasmalmira.config.flutter-tools'),
   },
@@ -210,4 +224,21 @@ require('lazy').setup({
     lazy = true,
     config = require('phantasmalmira.config.noice'),
   },
+  -- nvim-autopairs
+  {
+    'windwp/nvim-autopairs',
+    lazy = true,
+    config = true,
+  },
+  -- nvim-dap
+  {
+    'mfussenegger/nvim-dap',
+    dependencies = { 'nvim-telescope/telescope-dap.nvim', 'rcarriga/nvim-dap-ui' },
+    lazy = true,
+    config = require('phantasmalmira.config.nvim-dap'),
+  },
+  {
+    'max397574/better-escape.nvim',
+    config = require('phantasmalmira.config.better-escape'),
+  }
 }, lazy_config)
