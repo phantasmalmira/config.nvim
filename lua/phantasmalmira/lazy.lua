@@ -110,7 +110,7 @@ require('lazy').setup({
   {
     'numToStr/Comment.nvim',
     event = { 'BufReadPre' },
-    config = true,
+    config = require('phantasmalmira.config.comment'),
   },
   -- tabstops auto-detection
   {

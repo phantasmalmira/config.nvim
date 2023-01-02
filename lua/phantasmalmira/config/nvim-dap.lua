@@ -31,4 +31,6 @@ return function()
   dap.listeners.before.event_exited["dapui_config"] = function()
     dapui.close({})
   end
+  vim.keymap.set('n', '<leader>de', dapui.eval,
+    { noremap = true, silent = true, desc = '[D]ebug [E]valuate' })
 end

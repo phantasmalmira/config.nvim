@@ -43,6 +43,7 @@ vim.keymap.set('n', '<leader>cp', require('telescope.builtin').commands, { desc 
 
 -- barbar.nvim
 vim.keymap.set('n', '<A-b>', '<Cmd>exe "BufferGoto" . v:count1<CR>', { noremap = true, silent = true, desc = '[B]uffer' })
+vim.keymap.set('n', '<leader>bp', '<Cmd>BufferPick<CR>', { noremap = true, silent = true, desc = '[B]uffer [P]ick' })
 vim.keymap.set('n', '<leader>bl', '<Cmd>BufferLast<CR>', { noremap = true, silent = true, desc = '[B]uffer Last' })
 vim.keymap.set('n', '<leader>bh', '<Cmd>BufferPrevious<CR>',
   { noremap = true, silent = true, desc = '[B]uffer Previous' })
