@@ -1,0 +1,51 @@
+{
+  "Riverpod ConsumerWidget": {
+    "prefix": "cwidget",
+    "description": "Widget extending ConsumerWidget",
+    "body": [
+      "class ${1:ClassName} extends ConsumerWidget {",
+      "\tconst ${1:ClassName}({super.key});",
+      "",
+      "\t@override",
+      "\tWidget build(BuildContext context, WidgetRef ref) {",
+      "\t\t// TODO: implement build",
+      "\t\treturn const Placeholder();$0",
+      "\t}",
+      "}"
+    ]
+  },
+  "Riverpod ConsumerStatefulWidget": {
+    "prefix": "cswidget",
+    "description": "Widget extending ConsumerStatefulWidget",
+    "body": [
+      "class ${1:ClassName} extends ConsumerStatefulWidget {",
+      "\tconst ${1:ClassName}({super.key});",
+      "",
+      "\t@override",
+      "\tConsumerState<${1:ClassName}> createState() => _${1:ClassName}State();",
+      "}",
+      "",
+      "class _${1:ClassName}State extends ConsumerState<${1:ClassName}> {",
+      "\t@override",
+      "\tWidget build(BuildContext context) {",
+      "\t\t// TODO: implement build",
+      "\t\treturn const Placeholder();$0",
+      "\t}",
+      "}"
+    ]
+  },
+  "Freezed Class": {
+    "prefix": "freezed",
+    "description": "Freezed class",
+    "body": [
+      "@freezed",
+      "class ${1:ClassName} with _$${1:ClassName} {",
+      "\tconst ${1:ClassName}._();",
+      "",
+      "\tconst factory ${1:ClassName}({",
+      "\t\t${2:required String name},",
+      "\t}) = _${1:ClassName};",
+      "}"
+    ]
+  }
+}

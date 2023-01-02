@@ -237,8 +237,14 @@ require('lazy').setup({
     lazy = true,
     config = require('phantasmalmira.config.nvim-dap'),
   },
+  -- better-escape
   {
     'max397574/better-escape.nvim',
     config = require('phantasmalmira.config.better-escape'),
+  },
+  -- copilot
+  {
+    'zbirenbaum/copilot.lua',
+    config = require('phantasmalmira.config.copilot'),
   }
 }, lazy_config)

@@ -6,6 +6,9 @@ return function()
   local lspkind_format = lspkind.cmp_format({ mode = 'symbol_text', maxwidth = 50, preset = 'codicons' })
   vim.cmd('highlight! link CmpItemMenu String')
 
+  -- Load custom snippets
+  require('luasnip.loaders.from_vscode').lazy_load({ paths = vim.fn.stdpath('config') .. '/custom-snippets' })
+
   cmp.setup({
     snippet = {
       expand = function(args)
@@ -16,9 +19,14 @@ return function()
       fields = { 'kind', 'abbr', 'menu' },
       format = function(entry, vim_item)
         local kind = lspkind_format(entry, vim_item)
+        if kind.kind == 'Copilot' then
+          kind.kind = 'ﯙ Copilot'
+        end
         local strings = vim.split(kind.kind, '%s', { trimempty = true })
         kind.kind = ' ' .. strings[1] .. ' '
-        kind.menu = ' ' .. strings[2] .. ' '
+        if strings[2] ~= nil then
+          kind.menu = ' ' .. strings[2] .. ' '
+        end
         return kind
       end
     },
@@ -30,11 +38,18 @@ return function()
     mapping = cmp.mapping.preset.insert {
       ['<C-d>'] = cmp.mapping.scroll_docs(-4),
       ['<C-f>'] = cmp.mapping.scroll_docs(4),
-      ['<C-Space>'] = cmp.mapping.complete(),
+      ['<C-Space>'] = cmp.mapping.complete({}),
       ['<CR>'] = cmp.mapping.confirm {
         behavior = cmp.ConfirmBehavior.Replace,
         select = true,
       },
+      ['<Esc>'] = cmp.mapping(function(fallback)
+        if cmp.visible() then
+          cmp.close()
+        else
+          fallback()
+        end
+      end, { 'i', 's' }),
       ['<Tab>'] = cmp.mapping(function(fallback)
         if cmp.visible() then
           cmp.select_next_item()
