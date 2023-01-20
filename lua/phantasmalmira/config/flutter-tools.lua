@@ -27,7 +27,10 @@ return function()
         }
         require('dap.ext.vscode').load_launchjs()
       end,
-    }
+    },
+    dev_log = {
+      enabled = false,
+    },
   })
   require('telescope').load_extension('flutter')
 end
