@@ -9,4 +9,10 @@ if vim.g.neovide then
 end
 
 -- Spelling language
-vim.opt.spelllang = "en,cjk"
+vim.opt.spelllang:append("cjk")
+
+-- Set default shell
+vim.opt.shell = "nu.exe"
+vim.opt.shellcmdflag = "-c"
+vim.opt.shellquote = ""
+vim.opt.shellxquote = ""

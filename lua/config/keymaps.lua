@@ -6,3 +6,10 @@ vim.keymap.set("n", "<leader>fw", function()
   require("workspaces")
   require("telescope").extensions.workspaces.workspaces()
 end, { silent = true, desc = "Workspaces" })
+
+vim.api.nvim_set_keymap(
+  "n",
+  "<A-t>",
+  '<Cmd>exe v:count1 . "ToggleTerm"<CR>',
+  { silent = true, desc = "Toggle Terminal" }
+)
