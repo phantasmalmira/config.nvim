@@ -11,7 +11,7 @@ return {
       opts.formatting = {
         unpack(opts.formatting or {}),
         fields = { "kind", "abbr", "menu" },
-        format = function(entry, item)
+        format = function(_, item)
           local icons = require("lazyvim.config").icons.kinds
           local item_kind = item.kind
           if icons[item_kind] then
