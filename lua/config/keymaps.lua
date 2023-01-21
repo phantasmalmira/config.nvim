@@ -5,4 +5,4 @@
 vim.keymap.set("n", "<leader>fw", function()
   require("workspaces")
   require("telescope").extensions.workspaces.workspaces()
-end, { silent = true })
+end, { silent = true, desc = "Workspaces" })

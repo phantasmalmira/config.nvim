@@ -8,6 +8,13 @@ return {
       "WorkspacesList",
       "WorkspacesOpen",
     },
+    opts = {
+      hooks = {
+        open = function()
+          require("persistence").load()
+        end,
+      },
+    },
     config = function(_, opts)
       local workspaces = require("workspaces")
       workspaces.setup(opts)
