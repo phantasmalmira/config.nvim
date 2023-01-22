@@ -16,3 +16,6 @@ vim.opt.shell = "nu.exe"
 vim.opt.shellcmdflag = "-c"
 vim.opt.shellquote = ""
 vim.opt.shellxquote = ""
+
+-- Set scroll off
+vim.opt.scrolloff = 8

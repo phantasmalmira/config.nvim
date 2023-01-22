@@ -11,7 +11,14 @@ return {
     opts = {
       hooks = {
         open = function()
-          require("persistence").load()
+          local persistence = require("persistence")
+          persistence.load()
+          persistence.start()
+        end,
+        open_pre = function()
+          local persistence = require("persistence")
+          persistence.stop()
+          persistence.save()
         end,
       },
     },
