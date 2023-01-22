@@ -13,3 +13,5 @@ vim.api.nvim_set_keymap(
   '<Cmd>exe v:count1 . "ToggleTerm"<CR>',
   { silent = true, desc = "Toggle Terminal" }
 )
+
+vim.api.nvim_set_keymap("n", "<leader>bp", "<Cmd>BufferLinePick<CR>", { silent = true, desc = "Pick Buffer" })
