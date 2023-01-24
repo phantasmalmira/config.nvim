@@ -23,6 +23,15 @@ return {
           return item
         end,
       }
+      opts.window = opts.window or {}
+      opts.window.completion = {
+        border = "rounded",
+        scrollbar = "║",
+      }
+      opts.window.documentation = {
+        border = "rounded",
+        scrollbar = "║",
+      }
     end,
     config = function(_, opts)
       require("cmp").setup(opts)
