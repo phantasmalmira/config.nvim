@@ -19,6 +19,7 @@ return {
           local persistence = require("persistence")
           persistence.stop()
           persistence.save()
+          vim.api.nvim_command("%bw")
         end,
       },
     },
