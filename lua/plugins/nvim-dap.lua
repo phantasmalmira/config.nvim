@@ -30,17 +30,46 @@ return {
         dapui.close({})
       end
 
+      local Utils = require("utils")
+
       vim.keymap.set(
         "n",
         "<F9>",
         dap.toggle_breakpoint,
         { noremap = true, silent = true, desc = "Debug: Toggle breakpoint" }
       )
-      vim.keymap.set("n", "<F10>", dap.step_over, { noremap = true, silent = true, desc = "Debug: Step over" })
-      vim.keymap.set("n", "<F11>", dap.step_into, { noremap = true, silent = true, desc = "Debug: Step into" })
-      vim.keymap.set("n", "<S-F11>", dap.step_out, { noremap = true, silent = true, desc = "Debug: Step out" })
+      local function is_thread_paused()
+        return dap.session() ~= nil and dap.session().stopped_thread_id ~= nil
+      end
+      Utils.condexpr_keymap_set(
+        "n",
+        is_thread_paused,
+        "<F10>",
+        '<Cmd>lua require("dap").step_over()<CR>',
+        { noremap = true, silent = true, desc = "Debug: Step over" }
+      )
+      Utils.condexpr_keymap_set(
+        "n",
+        is_thread_paused,
+        "<F11>",
+        '<Cmd>lua require("dap").step_into()<CR>',
+        { noremap = true, silent = true, desc = "Debug: Step into" }
+      )
+      Utils.condexpr_keymap_set(
+        "n",
+        is_thread_paused,
+        "<S-F11>",
+        '<Cmd>lua require("dap").step_out()<CR>',
+        { noremap = true, silent = true, desc = "Debug: Step out" }
+      )
       vim.keymap.set("n", "<F5>", dap.continue, { noremap = true, silent = true, desc = "Debug: Continue" })
-      vim.keymap.set("n", "J", dapui.eval, { noremap = true, silent = true, desc = "Debug: Evaluate" })
+      Utils.condexpr_keymap_set(
+        "n",
+        is_thread_paused,
+        "J",
+        '<Cmd>lua require("dap").eval()<CR>',
+        { noremap = true, silent = true, desc = "Debug: Evaluate" }
+      )
     end,
   },
 }
