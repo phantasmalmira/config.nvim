@@ -26,6 +26,27 @@ return {
             dap.adapters.dart.options.detached = false
           end
           require("dap.ext.vscode").load_launchjs()
+          if next(dap.configurations.dart or {}) == nil then
+            dap.configurations.dart = {
+              {
+                type = "dart",
+                request = "launch",
+                name = "Flutter: Launch Debug",
+              },
+              {
+                type = "dart",
+                request = "launch",
+                name = "Flutter: Launch Profile",
+                flutterMode = "profile",
+              },
+              {
+                type = "dart",
+                request = "launch",
+                name = "Flutter: Launch Release",
+                flutterMode = "release",
+              },
+            }
+          end
         end,
       },
       dev_log = {
