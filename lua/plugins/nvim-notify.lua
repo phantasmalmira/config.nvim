@@ -7,6 +7,8 @@ return {
     config = function(_, opts)
       require("notify").setup(opts)
       vim.api.nvim_set_hl(0, "NotifyBackground", { bg = "#000000" })
+      vim.notify = require("notify")
     end,
+    event = "VeryLazy",
   },
 }

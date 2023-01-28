@@ -10,6 +10,8 @@ return {
       "ToggleTermSendVisualSelection",
       "ToggleTermSetName",
     },
-    opts = {},
+    opts = {
+      start_in_insert = false,
+    },
   },
 }
