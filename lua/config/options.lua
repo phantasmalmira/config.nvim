@@ -19,3 +19,7 @@ vim.opt.shellxquote = ""
 
 -- Set scroll off
 vim.opt.scrolloff = 8
+
+-- Set wrapping
+vim.opt.wrap = true
+vim.opt.linebreak = true
