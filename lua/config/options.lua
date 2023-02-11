@@ -8,6 +8,11 @@ if vim.g.neovide then
   vim.g.neovide_refresh_rate = 144
 end
 
+-- Flime settings
+if vim.g.flime then
+  vim.opt.guifont = { "Iosevka NFM:h18", "Symbols Nerd Font Mono 2048-em" }
+end
+
 -- Spelling language
 vim.opt.spelllang:append("cjk")
 
