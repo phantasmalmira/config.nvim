@@ -18,18 +18,6 @@ return {
       vim.fn.sign_define("DapLogPoint", { text = "", texthl = "DapLogPoint", numhl = "DapLogPoint" })
       vim.fn.sign_define("DapStopped", { text = "", texthl = "DapStopped", numhl = "DapStopped" })
 
-      local dapui = require("dapui")
-      dapui.setup()
-      dap.listeners.after.event_initialized["dapui_config"] = function()
-        dapui.open({})
-      end
-      dap.listeners.before.event_terminated["dapui_config"] = function()
-        dapui.close({})
-      end
-      dap.listeners.before.event_exited["dapui_config"] = function()
-        dapui.close({})
-      end
-
       local Utils = require("utils")
 
       vim.keymap.set(
@@ -63,13 +51,46 @@ return {
         { noremap = true, silent = true, desc = "Debug: Step out" }
       )
       vim.keymap.set("n", "<F5>", dap.continue, { noremap = true, silent = true, desc = "Debug: Continue" })
+      vim.keymap.set("n", "<F6>", dap.restart, { noremap = true, silent = true, desc = "Debug: Restart" })
+      vim.keymap.set("n", "<S-F5>", dap.run_to_cursor, { noremap = true, silent = true, desc = "Debug: Run to cursor" })
+      vim.keymap.set("n", "<F7>", dap.repl.toggle, { noremap = true, silent = true, desc = "Debug: Toggle Repl" })
+
+      dap.listeners.after.event_initialized["dapui_config"] = function()
+        dap.repl.open({
+          height = 10,
+        })
+      end
+      dap.listeners.before.event_terminated["dapui_config"] = function()
+        dap.repl.close()
+      end
+      dap.listeners.before.event_exited["dapui_config"] = function()
+        dap.repl.close()
+      end
+
       Utils.condexpr_keymap_set(
         "n",
         is_thread_paused,
         "J",
-        '<Cmd>lua require("dap").eval()<CR>',
+        '<Cmd>lua require("dap.ui.widgets").hover()<CR>',
         { noremap = true, silent = true, desc = "Debug: Evaluate" }
       )
+      vim.api.nvim_create_autocmd({ "FileType" }, {
+        pattern = "dap-float*",
+        callback = function(ev)
+          vim.keymap.set("n", "q", function()
+            vim.api.nvim_buf_delete(ev.buf, {})
+          end, {
+            buffer = ev.buf,
+            remap = true,
+          })
+        end,
+      })
+      vim.api.nvim_create_autocmd({ "WinLeave" }, {
+        pattern = "dap-hover-*",
+        callback = function(ev)
+          vim.api.nvim_buf_delete(ev.buf, {})
+        end,
+      })
     end,
   },
 }
