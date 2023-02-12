@@ -10,7 +10,12 @@ end
 
 -- Flime settings
 if vim.g.flime then
-  vim.opt.guifont = { "Iosevka NFM:h18", "Symbols Nerd Font Mono 2048-em" }
+  vim.opt.guifont = { "Iosevka NFM:h18" }
+  if vim.g.flime_platform == "windows" then
+    vim.g.flime_window_effect = "acrylic"
+    vim.g.flime_background_opacity = 0.5
+    vim.opt.pumblend = 0
+  end
 end
 
 -- Spelling language
