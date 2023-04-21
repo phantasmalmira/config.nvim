@@ -4,7 +4,17 @@ return {
     dependencies = {
       "anuvyklack/middleclass",
     },
-    opts = {},
+    opts = {
+      ignore = {
+        filetype = {
+          "neo-tree",
+          "NvimTree",
+          "undotree",
+          "gundo",
+          "lspsagaoutline",
+        },
+      },
+    },
     event = "BufWinEnter",
   },
 }

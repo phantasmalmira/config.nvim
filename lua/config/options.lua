@@ -1,7 +1,7 @@
 --- Neovide settings
 if vim.g.neovide then
-  vim.opt.guifont = { "FiraCode NF", ":h12" }
-  vim.g.neovide_transparency = 0.97
+  vim.opt.guifont = { "Iosevka NFM", ":h14" }
+  vim.g.neovide_transparency = 1
   vim.g.neovide_cursor_trail_size = 0
   vim.g.neovide_cursor_animation_length = 0.15
   vim.g.neovide_cursor_antialiasing = true
@@ -14,7 +14,7 @@ if vim.g.flime then
   if vim.g.flime_platform == "windows" then
     vim.g.flime_window_effect = "acrylic"
     vim.g.flime_background_opacity = 0.5
-    vim.opt.pumblend = 0
+    vim.opt.pumblend = 65
   end
 end
 
