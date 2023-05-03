@@ -8,7 +8,6 @@ return {
       })
       opts.sources[#opts.sources + 1] = nls.builtins.formatting.prettierd.with({
         filetypes = { "html", "markdown", "css", "scss", "less", "handlebars", "markdown.mdx", "graphql", "svelte" },
-        timeout = 10000,
       })
     end,
   },
