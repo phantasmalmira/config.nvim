@@ -34,7 +34,7 @@ local function setup(colorscheme)
 	pcall(vim.cmd.colorscheme, colorscheme)
 end
 
-setup("catppuccin-frappe")
 require("configs.options")
+setup("catppuccin-frappe")
 require("configs.autocmds")
 require("configs.keymaps")
