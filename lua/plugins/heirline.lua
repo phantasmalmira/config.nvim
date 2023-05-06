@@ -56,9 +56,6 @@ return {
 
 			return {
 				statusline = StatusLine,
-				winbar = WinBar,
-				tabline = TabLine,
-				statuscolumn = StatusColumn,
 			}
 		end,
 	},
