@@ -7,6 +7,8 @@ return {
   },
   {
     "WhoIsSethDaniel/mason-tool-installer.nvim",
+    build = ":MasonToolsInstall",
+    cmd = { "MasonToolsInstall", "MasonToolsUpdate" },
     opts = {
       ensure_installed = {
         "gitui",
@@ -14,6 +16,5 @@ return {
         "rustfmt",
       },
     },
-    event = { "VeryLazy" },
   },
 }

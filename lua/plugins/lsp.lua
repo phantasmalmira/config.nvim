@@ -1,10 +1,5 @@
 return {
   {
-    "lukas-reineke/lsp-format.nvim",
-    lazy = true,
-    opts = {},
-  },
-  {
     "folke/neodev.nvim",
     lazy = true,
     opts = {},
@@ -13,7 +8,6 @@ return {
     "williamboman/mason-lspconfig.nvim",
     dependencies = {
       "williamboman/mason.nvim",
-      "lukas-reineke/lsp-format.nvim",
       "folke/neodev.nvim",
     },
     lazy = true,
@@ -23,13 +17,19 @@ return {
       handlers = {
         -- Default handler
         function(server_name)
+          local capabilities = require("cmp_nvim_lsp").default_capabilities()
           require("lspconfig")[server_name].setup({
-            on_attach = require("lsp-format").on_attach,
+            capabilities = capabilities,
+            on_attach = require("configs.lsp").on_attach,
           })
         end,
         ["rust_analyzer"] = function()
+          local capabilities = require("cmp_nvim_lsp").default_capabilities()
           require("rust-tools").setup({
-            on_attach = require("lsp-format").on_attach,
+            server = {
+              capabilities = capabilities,
+              on_attach = require("configs.lsp").on_attach,
+            },
           })
         end,
       },
