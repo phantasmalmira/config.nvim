@@ -25,8 +25,18 @@ vim.keymap.set("c", "<S-Enter>", function()
 end, { desc = "Redirect Cmdline" })
 
 vim.keymap.set("n", "<leader>l", ":Lazy<CR>", { desc = "Lazy", silent = true })
+
+-- Telescope
 vim.keymap.set("n", "<leader><leader>", ":Telescope find_files<CR>", { desc = "Find files", silent = true })
 vim.keymap.set("n", "<leader>fg", ":Telescope live_grep<CR>", { desc = "Grep files", silent = true })
 vim.keymap.set("n", "<leader>ff", ":Telescope find_files<CR>", { desc = "Find files", silent = true })
 vim.keymap.set("n", "<leader>fb", ":Telescope buffers<CR>", { desc = "Find files", silent = true })
-vim.keymap.set("n", "<leader>fp", ":Telescope projects<CR>", { desc = "Find projects", silent = true })
+
+-- Buffers
+vim.keymap.set("n", "H", ":bprev<CR>", { desc = "Previous buffer", silent = true })
+vim.keymap.set("n", "L", ":bnext<CR>", { desc = "Next buffer", silent = true })
+vim.keymap.set("n", "<leader>bb", ":b#<CR>", { desc = "Last used buffer", silent = true })
+vim.keymap.set("n", "<leader>bd", ":bd<CR>", { desc = "Delete buffer", silent = true })
+vim.keymap.set("n", "<leader>bD", ":bd!<CR>", { desc = "Delete buffer (force)", silent = true })
+vim.keymap.set("n", "<leader>bw", ":bw<CR>", { desc = "Wipeout buffer", silent = true })
+vim.keymap.set("n", "<leader>bW", ":bw!<CR>", { desc = "Wipeout buffer (force)", silent = true })

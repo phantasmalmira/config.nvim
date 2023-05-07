@@ -54,6 +54,7 @@ M.keymaps = {
 }
 
 M.on_attach = function(client, buffer)
+  require("lsp-status").on_attach(client, buffer)
   local Keys = require("lazy.core.handler.keys")
   local keymaps = {} ---@type table<string,LazyKeys|{has?:string}>
 

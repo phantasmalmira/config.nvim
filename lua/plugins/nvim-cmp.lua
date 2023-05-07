@@ -6,22 +6,37 @@ return {
       "hrsh7th/cmp-nvim-lsp",
       "hrsh7th/cmp-buffer",
       "hrsh7th/cmp-path",
+      "zbirenbaum/copilot-cmp",
       "saadparwaiz1/cmp_luasnip",
       "onsails/lspkind.nvim",
     },
     opts = function()
       local cmp = require("cmp")
+      local sources = {
+        buffer = "[Buf]",
+        nvim_lsp = "[LSP]",
+        luasnip = "[LuaSnip]",
+        path = "[Path]",
+        copilot = "[Copilot]",
+      }
       return {
         completion = {
           completeopt = "menu,menuone,noinsert",
         },
         window = {
-          col_offset = -3,
-          side_padding = 0,
+          completion = {
+            side_padding = 0,
+            max_width = 45,
+            max_height = 20,
+          },
+          documentation = {
+            max_width = 60,
+            max_height = 20,
+          },
         },
         formatting = {
           fields = { "kind", "abbr", "menu" },
-          format = function(_, item)
+          format = function(entry, item)
             local icons = require("lspkind").presets.codicons
             local item_kind = item.kind
             if icons[item_kind] then
@@ -30,7 +45,8 @@ return {
               item.kind = " "
             end
             item.kind = " " .. item.kind .. " "
-            item.menu = item_kind
+            local source_name = sources[entry.source.name] or "[?]"
+            item.menu = source_name
             return item
           end,
         },
@@ -45,9 +61,10 @@ return {
           ["<C-f>"] = cmp.mapping.scroll_docs(4),
           ["<C-s>"] = cmp.mapping.complete(),
           ["<C-Space>"] = cmp.mapping.complete(),
-          ["<CR>"] = cmp.mapping.confirm({ select = true }),
+          ["<CR>"] = cmp.mapping.confirm({ select = true, behavior = cmp.ConfirmBehavior.Replace }),
         }),
         sources = cmp.config.sources({
+          { name = "copilot" },
           { name = "nvim_lsp" },
           { name = "luasnip" },
           { name = "buffer" },
@@ -61,13 +78,15 @@ return {
       }
     end,
     config = function(_, opts)
+      require("lspkind").presets.codicons.Copilot = ""
       require("cmp").setup(opts)
 
-      vim.cmd.highlight("CmpItemAbbrDeprecated gui=reverse cterm=reverse")
-      vim.cmd.highlight("CmpItemAbbrMatch gui=reverse cterm=reverse")
-      vim.cmd.highlight("CmpItemAbbrMatchFuzzy gui=reverse cterm=reverse")
-      vim.cmd.highlight("CmpItemMenu gui=reverse cterm=reverse")
+      vim.cmd.highlight("CmpItemAbbrDeprecated gui=strikethrough cterm=strikethrough")
+      vim.cmd.highlight("CmpItemMenu guifg=#eebebe gui=italic cterm=italic")
 
+      vim.cmd.highlight("CmpItemKind gui=reverse cterm=reverse")
+      vim.cmd.highlight("CmpItemKindCopilot guifg=#81c8be gui=reverse cterm=reverse")
+      vim.cmd.highlight("CmpItemKindDefault gui=reverse cterm=reverse")
       vim.cmd.highlight("CmpItemKindField gui=reverse cterm=reverse")
       vim.cmd.highlight("CmpItemKindProperty gui=reverse cterm=reverse")
       vim.cmd.highlight("CmpItemKindEvent gui=reverse cterm=reverse")
