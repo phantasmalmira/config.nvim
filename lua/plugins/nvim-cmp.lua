@@ -4,7 +4,6 @@ return {
     opts = function(_, opts)
       local cmp = require("cmp")
       local appended_source = {
-        { name = "copilot" },
         unpack(opts.sources),
       }
       opts.sources = cmp.config.sources(appended_source)

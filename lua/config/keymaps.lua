@@ -37,3 +37,13 @@ vim.keymap.set("n", "<leader>b/", function()
     previewer = false,
   }))
 end, { desc = "[/] Fuzzily search in current buffer" })
+
+local smart_splits = require("smart-splits")
+vim.keymap.set("n", "<C-h>", smart_splits.move_cursor_left, { silent = true, desc = "Smart split: Move cursor left" })
+vim.keymap.set("n", "<C-j>", smart_splits.move_cursor_down, { silent = true, desc = "Smart split: Move cursor down" })
+vim.keymap.set("n", "<C-k>", smart_splits.move_cursor_up, { silent = true, desc = "Smart split: Move cursor up" })
+vim.keymap.set("n", "<C-l>", smart_splits.move_cursor_right, { silent = true, desc = "Smart split: Move cursor right" })
+vim.keymap.set("n", "<M-h>", smart_splits.resize_left, { silent = true, desc = "Smart split: Resize left" })
+vim.keymap.set("n", "<M-j>", smart_splits.resize_down, { silent = true, desc = "Smart split: Resize down" })
+vim.keymap.set("n", "<M-k>", smart_splits.resize_up, { silent = true, desc = "Smart split: Resize up" })
+vim.keymap.set("n", "<M-l>", smart_splits.resize_right, { silent = true, desc = "Smart split: Resize right" })
