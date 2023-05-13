@@ -42,6 +42,7 @@ return {
     event = { "BufReadPre", "BufNewFile" },
     dependencies = {
       "williamboman/mason-lspconfig.nvim",
+      "folke/neoconf.nvim",
     },
   },
 }

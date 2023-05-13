@@ -45,3 +45,12 @@ vim.opt.wildmode = "longest:full,full"
 vim.opt.winminwidth = 5
 vim.opt.splitkeep = "screen"
 vim.opt.shortmess:append({ W = true, I = true, c = true, C = true })
+
+-- Diagnostics
+vim.diagnostic.config({
+  float = {
+    source = "if_many",
+    border = "rounded",
+    show_header = true,
+  },
+})

@@ -1,10 +1,6 @@
 return {
   {
     "natecraddock/workspaces.nvim",
-    dependencies = {
-      "nvim-telescope/telescope.nvim",
-    },
-    event = { "VeryLazy" },
     cmd = {
       "WorkspacesAdd",
       "WorkspacesAddDir",
@@ -17,7 +13,7 @@ return {
       "WorkspacesSyncDirs",
     },
     keys = {
-      { "<leader>fw", ":Telescope workspaces<CR>", desc = "Find workspaces" },
+      { "<leader>fw", ":Telescope workspaces<CR>", desc = "Find workspaces", silent = true },
     },
     opts = {
       hooks = {
@@ -30,6 +26,7 @@ return {
               persistence.save()
               persistence.stop()
             end
+            vim.api.nvim_command("%bw")
           end,
         },
         open = {

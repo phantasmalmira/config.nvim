@@ -51,6 +51,7 @@ M.keymaps = {
   { "]w", M.diagnostic_goto(true, "WARN"), desc = "LSP: Next Warning" },
   { "[w", M.diagnostic_goto(false, "WARN"), desc = "LSP: Prev Warning" },
   { "<leader>cf", M.format, desc = "LSP: Format Document" },
+  { "<leader>ca", vim.lsp.buf.code_action, desc = "LSP: Code Actions" },
 }
 
 M.on_attach = function(client, buffer)

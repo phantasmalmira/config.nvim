@@ -19,7 +19,23 @@ return {
         dashboard.button("r", "  > Recent", ":Telescope oldfiles<CR>"),
         dashboard.button("l", "  > Lazy", ":Lazy<CR>"),
       }
-      return dashboard.opts
+      dashboard.section.footer.val = {
+        require("lazy.stats").stats().startuptime,
+      }
+      return dashboard
+    end,
+    config = function(_, dashboard)
+      require("alpha").setup(dashboard.opts)
+
+      vim.api.nvim_create_autocmd("User", {
+        pattern = "LazyVimStarted",
+        callback = function()
+          local stats = require("lazy").stats()
+          local ms = (math.floor(stats.startuptime * 100 + 0.5) / 100)
+          dashboard.section.footer.val = "⚡ Neovim loaded " .. stats.count .. " plugins in " .. ms .. "ms"
+          pcall(vim.cmd.AlphaRedraw)
+        end,
+      })
     end,
   },
 }
