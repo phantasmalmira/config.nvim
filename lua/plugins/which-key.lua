@@ -7,6 +7,7 @@ return {
         mode = { "n", "v" },
         ["g"] = { name = "+go" },
         ["gz"] = { name = "+surround" },
+        ["z"] = { name = "+fold" },
         ["]"] = { name = "+next" },
         ["["] = { name = "+prev" },
         ["<leader>b"] = { name = "+buffer" },

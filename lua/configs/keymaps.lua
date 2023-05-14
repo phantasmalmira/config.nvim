@@ -55,3 +55,6 @@ set({ "n", "x", "o" }, "N", "'nN'[v:searchforward]", { desc = "Prev search match
 -- Better indent
 set("v", "<", "<gv", { desc = "Indent left", silent = true })
 set("v", ">", ">gv", { desc = "Indent left", silent = true })
+
+-- Escape terminal
+set("t", "<Esc>", "<C-\\><C-n>", { desc = "Escape terminal" })
