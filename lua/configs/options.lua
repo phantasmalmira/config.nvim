@@ -54,3 +54,23 @@ vim.diagnostic.config({
     show_header = true,
   },
 })
+vim.fn.sign_define("DiagnosticSignError", {
+  text = "",
+  numhl = "DiagnosticSignError",
+  texthl = "DiagnosticSignError",
+})
+vim.fn.sign_define("DiagnosticSignWarn", {
+  text = "",
+  numhl = "DiagnosticSignWarn",
+  texthl = "DiagnosticSignWarn",
+})
+vim.fn.sign_define("DiagnosticSignInformation", {
+  text = "",
+  numhl = "DiagnosticSignInformation",
+  texthl = "DiagnosticSignInformation",
+})
+vim.fn.sign_define("DiagnosticSignHint", {
+  text = "",
+  numhl = "DiagnosticSignHint",
+  texthl = "DiagnosticSignHint",
+})
