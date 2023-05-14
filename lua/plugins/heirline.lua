@@ -100,6 +100,20 @@ return {
         },
       }
 
+      local MacroRecorder = {
+        provider = function()
+          return " " .. vim.fn.reg_recording() .. " "
+        end,
+        condition = function()
+          return vim.fn.reg_recording() ~= "" and vim.o.cmdheight == 0
+        end,
+        hl = { fg = "red" },
+        update = {
+          "RecordingEnter",
+          "RecordingLeave",
+        },
+      }
+
       local BufIcon = {
         init = function(self)
           local extension = vim.fn.fnamemodify(self.filename, ":e")
@@ -183,6 +197,7 @@ return {
       }
       local StatusLine = {
         Mode,
+        MacroRecorder,
         BufName,
         { provider = "%=" },
         LspStatus,
