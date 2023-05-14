@@ -23,6 +23,24 @@ return {
         completion = {
           completeopt = "menu,menuone,noinsert",
         },
+        sorting = {
+          priority_weight = 2,
+          comparators = {
+            require("copilot_cmp.comparators").prioritize,
+
+            -- Below is the default comparitor list and order for nvim-cmp
+            cmp.config.compare.offset,
+            -- cmp.config.compare.scopes, --this is commented in nvim-cmp too
+            cmp.config.compare.exact,
+            cmp.config.compare.score,
+            cmp.config.compare.recently_used,
+            cmp.config.compare.locality,
+            cmp.config.compare.kind,
+            cmp.config.compare.sort_text,
+            cmp.config.compare.length,
+            cmp.config.compare.order,
+          },
+        },
         window = {
           completion = {
             side_padding = 0,
@@ -59,9 +77,8 @@ return {
           ["<C-e>"] = cmp.mapping.abort(),
           ["<C-b>"] = cmp.mapping.scroll_docs(-4),
           ["<C-f>"] = cmp.mapping.scroll_docs(4),
-          ["<C-s>"] = cmp.mapping.complete(),
           ["<C-Space>"] = cmp.mapping.complete(),
-          ["<CR>"] = cmp.mapping.confirm({ select = true, behavior = cmp.ConfirmBehavior.Replace }),
+          ["<CR>"] = cmp.mapping.confirm({ select = true }),
         }),
         sources = cmp.config.sources({
           { name = "copilot" },

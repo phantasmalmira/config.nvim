@@ -43,7 +43,7 @@ set("n", "<leader>cd", vim.diagnostic.open_float, { desc = "Open diagnostics at 
 -- Utilities
 set("n", "<leader>ft", function()
   require("lazy.util").float_term()
-end)
+end, { desc = "Float terminal" })
 
 -- Clear search with ESC
 set({ "n", "i" }, "<Esc>", "<Cmd>noh<CR><Esc>", { desc = "Escape and clear search", silent = true })
