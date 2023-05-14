@@ -1,5 +1,9 @@
 local M = {}
 
+M.capabilities = function()
+  return vim.tbl_extend("keep", require("cmp_nvim_lsp").default_capabilities(), require("lsp-status").capabilities)
+end
+
 M.format = function()
   local buf = vim.api.nvim_get_current_buf()
   local filetype = vim.api.nvim_buf_get_option(buf, "filetype")

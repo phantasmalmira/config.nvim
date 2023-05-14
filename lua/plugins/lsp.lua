@@ -17,19 +17,15 @@ return {
       handlers = {
         -- Default handler
         function(server_name)
-          local capabilities =
-            vim.tbl_extend("keep", require("cmp_nvim_lsp").default_capabilities(), require("lsp-status").capabilities)
           require("lspconfig")[server_name].setup({
-            capabilities = capabilities,
+            capabilities = require("configs.lsp").capabilities(),
             on_attach = require("configs.lsp").on_attach,
           })
         end,
         ["rust_analyzer"] = function()
-          local capabilities =
-            vim.tbl_extend("keep", require("cmp_nvim_lsp").default_capabilities(), require("lsp-status").capabilities)
           require("rust-tools").setup({
             server = {
-              capabilities = capabilities,
+              capabilities = require("configs.lsp").capabilities(),
               on_attach = require("configs.lsp").on_attach,
             },
           })
