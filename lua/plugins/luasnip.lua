@@ -36,5 +36,20 @@ return {
         desc = "Jump to previous snippet field",
       },
     },
+    config = function(_, opts)
+      local ls = require("luasnip")
+      ls.setup(opts)
+
+      vim.api.nvim_create_autocmd({ "ModeChanged" }, {
+        group = vim.api.nvim_create_augroup("ExitSnippetOnModeChange"),
+        pattern = { "s:n", "i:*" },
+        desc = "Exit snippet mode when changing modes",
+        callback = function(evt)
+          if ls.session and ls.session.current_nodes[evt.buf] and not ls.session.jump_active then
+            ls.unlink_current()
+          end
+        end,
+      })
+    end,
   },
 }
