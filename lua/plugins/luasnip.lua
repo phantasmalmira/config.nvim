@@ -41,7 +41,7 @@ return {
       ls.setup(opts)
 
       vim.api.nvim_create_autocmd({ "ModeChanged" }, {
-        group = vim.api.nvim_create_augroup("ExitSnippetOnModeChange"),
+        group = vim.api.nvim_create_augroup("ExitSnippetOnModeChange", {}),
         pattern = { "s:n", "i:*" },
         desc = "Exit snippet mode when changing modes",
         callback = function(evt)
