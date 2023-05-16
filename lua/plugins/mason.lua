@@ -2,6 +2,7 @@ return {
   {
     "williamboman/mason.nvim",
     cmd = { "Mason", "MasonUpdate", "MasonInstall", "MasonUninstall", "MasonUninstallAll", "MasonLog" },
+    event = { "VeryLazy" },
     build = ":MasonUpdate",
     opts = {},
   },
