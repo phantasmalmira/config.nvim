@@ -27,6 +27,14 @@ return {
             server = {
               capabilities = require("configs.lsp").capabilities(),
               on_attach = require("configs.lsp").on_attach,
+              standalone = false,
+              settings = {
+                ["rust-analyzer"] = {
+                  cargo = {
+                    features = "all",
+                  },
+                },
+              },
             },
           })
         end,
