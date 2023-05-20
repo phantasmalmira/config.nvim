@@ -44,6 +44,8 @@ vim.opt.updatetime = 200
 vim.opt.wildmode = "longest:full,full"
 vim.opt.winminwidth = 5
 vim.opt.splitkeep = "screen"
+vim.opt.splitbelow = true
+vim.opt.splitright = true
 vim.opt.shortmess:append({ W = true, I = true, c = true, C = true })
 
 -- Diagnostics
