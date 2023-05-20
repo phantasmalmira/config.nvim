@@ -58,3 +58,6 @@ set("v", ">", ">gv", { desc = "Indent left", silent = true })
 
 -- Escape terminal
 set("t", "<Esc>", "<C-\\><C-n>", { desc = "Escape terminal" })
+
+-- Better visual pasting
+set("v", "p", 'p:let @+=@0<CR>:let @"=@0<CR>', { desc = "Paste over visual selection", silent = true })
