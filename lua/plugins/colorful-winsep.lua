@@ -2,7 +2,13 @@ return {
   {
     "nvim-zh/colorful-winsep.nvim",
     event = { "VeryLazy" },
-    opts = {
+    opts = { -- highlight for Window separator
+      -- timer refresh rate
+      interval = 30,
+      -- This plugin will not be activated for filetype in the following table.
+      no_exec_files = { "packer", "TelescopePrompt", "mason", "CompetiTest", "NvimTree", "lazy", "neo-tree" },
+      -- Symbols for separator lines, the order: horizontal, vertical, top left, top right, bottom left, bottom right.
+      symbols = { "─", "│", "┌", "┐", "└", "┘" },
       create_event = function()
         local win_n = require("colorful-winsep.utils").calculate_number_windows()
         if win_n == 2 then
