@@ -31,11 +31,6 @@ set("n", "<leader>l", ":Lazy<CR>", { desc = "Lazy", silent = true })
 set("n", "H", ":bprev<CR>", { desc = "Previous buffer", silent = true })
 set("n", "L", ":bnext<CR>", { desc = "Next buffer", silent = true })
 set("n", "<leader>bb", ":b#<CR>", { desc = "Last used buffer", silent = true })
-set("n", "<leader>bd", ":bd<CR>", { desc = "Delete buffer", silent = true })
-set("n", "<leader>bD", ":bd!<CR>", { desc = "Delete buffer (force)", silent = true })
-set("n", "<leader>bw", ":bw<CR>", { desc = "Wipeout buffer", silent = true })
-set("n", "<leader>bW", ":bw!<CR>", { desc = "Wipeout buffer (force)", silent = true })
-set("n", "<leader>bo", ":%bd|e#|bd#<CR>", { desc = "Delete all other buffers", silent = true })
 
 -- Diagnostics
 set("n", "<leader>cd", vim.diagnostic.open_float, { desc = "Open diagnostics at cursor" })
