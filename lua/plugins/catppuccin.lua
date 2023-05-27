@@ -38,6 +38,10 @@ return {
           enabled = true,
           active = true,
         },
+        dap = {
+          enabled = true,
+          enable_ui = true,
+        },
       },
     },
   },
