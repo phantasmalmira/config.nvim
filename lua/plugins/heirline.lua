@@ -43,17 +43,17 @@ return {
             t = "T",
           },
           colors = {
-            n = "lavender",
+            n = "blue",
             i = "green",
-            v = "flamingo",
-            V = "flamingo",
-            ["\22"] = "flamingo",
-            c = "peach",
-            s = "maroon",
-            S = "maroon",
-            ["\19"] = "maroon",
-            R = "maroon",
-            r = "maroon",
+            v = "purple",
+            V = "purple",
+            ["\22"] = "purple",
+            c = "orange",
+            s = "red",
+            S = "red",
+            ["\19"] = "red",
+            R = "red",
+            r = "red",
             ["!"] = "green",
             t = "green",
           },
@@ -159,7 +159,7 @@ return {
               return vim.bo.modified
             end,
             provider = " ",
-            hl = { fg = "peach" },
+            hl = { fg = "orange" },
           },
         },
         { -- Trim filename if statusline is too short
@@ -241,13 +241,13 @@ return {
                   end,
                   name = "heirline_navic",
                 },
+                hl = self.type_hl[d.type],
               },
             }
             -- add a separator only if needed
             if #data > 1 and i < #data then
               table.insert(child, {
                 provider = " > ",
-                hl = { fg = "blue" },
               })
             end
             table.insert(children, child)
@@ -259,7 +259,7 @@ return {
         provider = function(self)
           return self.child:eval()
         end,
-        hl = { fg = "subtext1" },
+        hl = { fg = "gray" },
         update = "CursorMoved",
       }
 
@@ -284,7 +284,110 @@ return {
             local progress = require("lsp-status").status_progress()
             return progress and progress .. " "
           end,
-          hl = { fg = "rosewater" },
+          hl = { fg = "orange" },
+        },
+      }
+
+      local Diagnostics = {
+
+        condition = conditions.has_diagnostics,
+
+        static = {
+          error_icon = vim.fn.sign_getdefined("DiagnosticSignError")[1].text,
+          warn_icon = vim.fn.sign_getdefined("DiagnosticSignWarn")[1].text,
+          info_icon = vim.fn.sign_getdefined("DiagnosticSignInfo")[1].text,
+          hint_icon = vim.fn.sign_getdefined("DiagnosticSignHint")[1].text,
+        },
+
+        init = function(self)
+          self.errors = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.ERROR })
+          self.warnings = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.WARN })
+          self.hints = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.HINT })
+          self.info = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.INFO })
+        end,
+
+        update = { "DiagnosticChanged", "BufEnter" },
+
+        { provider = " " },
+        {
+          provider = function(self)
+            -- 0 is just another output, we can decide to print it or not!
+            return self.errors > 0 and (self.error_icon .. self.errors .. " ")
+          end,
+          hl = { fg = "diag_error" },
+        },
+        {
+          provider = function(self)
+            return self.warnings > 0 and (self.warn_icon .. self.warnings .. " ")
+          end,
+          hl = { fg = "diag_warn" },
+        },
+        {
+          provider = function(self)
+            return self.info > 0 and (self.info_icon .. self.info .. " ")
+          end,
+          hl = { fg = "diag_info" },
+        },
+        {
+          provider = function(self)
+            return self.hints > 0 and (self.hint_icon .. self.hints)
+          end,
+          hl = { fg = "diag_hint" },
+        },
+        { provider = " " },
+      }
+
+      local Git = {
+        condition = conditions.is_git_repo,
+
+        init = function(self)
+          self.status_dict = vim.b.gitsigns_status_dict
+          self.has_changes = self.status_dict.added ~= 0
+            or self.status_dict.removed ~= 0
+            or self.status_dict.changed ~= 0
+        end,
+
+        hl = { fg = "orange" },
+
+        { -- git branch name
+          provider = function(self)
+            return " " .. self.status_dict.head
+          end,
+          hl = { bold = true },
+        },
+        -- You could handle delimiters, icons and counts similar to Diagnostics
+        {
+          condition = function(self)
+            return self.has_changes
+          end,
+          provider = "(",
+        },
+        {
+          provider = function(self)
+            local count = self.status_dict.added or 0
+            return count > 0 and ("+" .. count)
+          end,
+          hl = { fg = "git_add" },
+        },
+        {
+          provider = function(self)
+            local count = self.status_dict.removed or 0
+            return count > 0 and ("-" .. count)
+          end,
+          hl = { fg = "git_del" },
+        },
+        {
+          provider = function(self)
+            local count = self.status_dict.changed or 0
+            return count > 0 and ("~" .. count)
+          end,
+          hl = { fg = "git_change" },
+        },
+        {
+          condition = function(self)
+            return self.has_changes
+          end,
+          provider = ")",
         },
       }
 
@@ -298,8 +401,10 @@ return {
         Navic,
         { provider = "%=" },
         LspStatus,
+        Diagnostics,
+        Git,
         Ruler,
-        hl = { bg = "mantle", fg = "text" },
+        hl = "Normal",
         condition = function()
           return not conditions.buffer_matches({
             filetype = {
@@ -328,7 +433,7 @@ return {
             return vim.api.nvim_buf_get_option(self.bufnr, "modified")
           end,
           provider = " ",
-          hl = { fg = "peach" },
+          hl = { fg = "orange" },
         },
         {
           condition = function(self)
@@ -398,14 +503,14 @@ return {
       local TablineBufferBlock = {
         hl = function(self)
           if self.is_active then
-            return { bg = utils.get_highlight("Normal").bg, fg = "text" }
+            return "Normal"
           else
             return "TabLine"
           end
         end,
         TablineFileNameBlock,
         TablineCloseButton,
-        { provider = "▐", hl = { fg = "crust", bold = true } },
+        { provider = "▐", hl = { fg = "gray", bold = true } },
       }
       -- this is the default function used to retrieve buffers
       local get_bufs = function()
@@ -479,7 +584,7 @@ return {
         TabLineOffset,
         BufferLine,
         { provider = "%=" },
-        hl = { bg = "crust" },
+        hl = "Normal",
       }
       local WinBar = {}
       local StatusColumn = {}
@@ -493,9 +598,28 @@ return {
       require("heirline").setup(opts)
 
       local function load_colors()
-        local clrs = require("catppuccin.palettes").get_palette()
-
-        return clrs
+        local utils = require("heirline.utils")
+        local colors = {
+          bright_bg = utils.get_highlight("Folded").bg,
+          bright_fg = utils.get_highlight("Folded").fg,
+          red = utils.get_highlight("DiagnosticError").fg,
+          dark_red = utils.get_highlight("DiffDelete").bg,
+          green = utils.get_highlight("String").fg,
+          blue = utils.get_highlight("Function").fg,
+          gray = utils.get_highlight("NonText").fg,
+          orange = utils.get_highlight("Constant").fg,
+          purple = utils.get_highlight("Statement").fg,
+          yellow = utils.get_highlight("WarningMsg").fg,
+          cyan = utils.get_highlight("Special").fg,
+          diag_warn = utils.get_highlight("DiagnosticWarn").fg,
+          diag_error = utils.get_highlight("DiagnosticError").fg,
+          diag_hint = utils.get_highlight("DiagnosticHint").fg,
+          diag_info = utils.get_highlight("DiagnosticInfo").fg,
+          git_del = utils.get_highlight("DiagnosticError").fg,
+          git_add = utils.get_highlight("String").fg,
+          git_change = utils.get_highlight("DiagnosticWarn").fg,
+        }
+        return colors
       end
       require("heirline").load_colors(load_colors())
 

@@ -2,12 +2,20 @@ return {
   {
     "catppuccin/nvim",
     name = "catppuccin",
+    lazy = true,
+    priority = 100,
     config = function(_, opts)
       require("catppuccin").setup(opts)
-      vim.cmd.colorscheme("catppuccin-frappe")
-      vim.cmd.highlight("Folded", "guibg=#3b3f52")
     end,
     opts = {
+      custom_highlights = function()
+        local colors = require("catppuccin.palettes").get_palette()
+        return {
+          Folded = {
+            bg = colors.crust,
+          },
+        }
+      end,
       integrations = {
         cmp = true,
         gitsigns = true,
