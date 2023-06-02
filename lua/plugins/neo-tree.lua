@@ -11,12 +11,7 @@ return {
         desc = "NeoTree",
       },
     },
-    opts = {
-      filesystem = {
-        follow_current_file = true,
-        use_libuv_file_watcher = true,
-      },
-    },
+    opts = {},
     init = function()
       vim.g.neo_tree_remove_legacy_commands = 1
       if vim.fn.argc() == 1 then

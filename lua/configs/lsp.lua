@@ -58,6 +58,20 @@ M.keymaps = {
   { "<leader>ca", vim.lsp.buf.code_action, desc = "LSP: Code Actions" },
 }
 
+local custom_on_attach = {}
+
+M.register_on_attach = function(on_attach)
+  custom_on_attach[#custom_on_attach + 1] = on_attach
+end
+
+M.unregister_on_attach = function(on_attach)
+  for i = #custom_on_attach, 1, -1 do
+    if custom_on_attach[i] == on_attach then
+      table.remove(custom_on_attach, i)
+    end
+  end
+end
+
 M.on_attach = function(client, buffer)
   require("lsp-status").on_attach(client, buffer)
   local Keys = require("lazy.core.handler.keys")
@@ -92,6 +106,10 @@ M.on_attach = function(client, buffer)
         M.format()
       end,
     })
+  end
+
+  for _, on_attach in ipairs(custom_on_attach) do
+    on_attach(client, buffer)
   end
 end
 

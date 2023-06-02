@@ -2,6 +2,11 @@ return {
   {
     "catppuccin/nvim",
     name = "catppuccin",
+    config = function(_, opts)
+      require("catppuccin").setup(opts)
+      vim.cmd.colorscheme("catppuccin-frappe")
+      vim.cmd.highlight("Folded", "guibg=#3b3f52")
+    end,
     opts = {
       integrations = {
         cmp = true,

@@ -71,7 +71,13 @@ return {
       },
     },
     opts = {
-      dapui = {},
+      dapui = {
+        icons = {
+          collapsed = "›",
+          current_frame = "›",
+          expanded = "",
+        },
+      },
     },
     config = function(_, opts)
       local dap, dapui = require("dap"), require("dapui")

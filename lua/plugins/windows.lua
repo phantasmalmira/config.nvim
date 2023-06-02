@@ -5,6 +5,11 @@ return {
       "anuvyklack/middleclass",
     },
     event = { "VeryLazy" },
-    opts = {},
+    opts = {
+      ignore = {
+        buftype = { "quickfix" },
+        filetype = { "NvimTree", "neo-tree", "undotree", "gundo", "dap*" },
+      },
+    },
   },
 }
