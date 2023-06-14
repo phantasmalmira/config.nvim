@@ -2,9 +2,9 @@ return {
   {
     "luukvbaal/statuscol.nvim",
     event = { "VeryLazy" },
-    config = function()
+    opts = function()
       local builtin = require("statuscol.builtin")
-      require("statuscol").setup({
+      return {
         relculright = true,
         ft_ignore = {
           "neo-tree",
@@ -28,7 +28,7 @@ return {
             click = "v:lua.ScSa",
           },
         },
-      })
+      }
     end,
   },
 }
