@@ -10,6 +10,27 @@ return {
         sources = {
           nls.builtins.formatting.stylua,
           nls.builtins.formatting.rustfmt,
+          nls.builtins.formatting.prettierd.with({
+            filetypes = {
+              "javascript",
+              "javascriptreact",
+              "typescript",
+              "typescriptreact",
+              "vue",
+              "css",
+              "scss",
+              "less",
+              "html",
+              "json",
+              "jsonc",
+              "yaml",
+              "markdown",
+              "markdown.mdx",
+              "graphql",
+              "handlebars",
+              "svelte",
+            },
+          }),
         },
       }
     end,

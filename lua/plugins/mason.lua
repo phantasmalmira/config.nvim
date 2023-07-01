@@ -15,6 +15,7 @@ return {
         "gitui",
         "stylua",
         "rustfmt",
+        "prettierd",
       },
     },
   },

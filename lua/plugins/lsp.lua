@@ -12,7 +12,7 @@ return {
     },
     lazy = true,
     opts = {
-      ensure_installed = { "lua_ls", "rust_analyzer@nightly" },
+      ensure_installed = { "lua_ls", "rust_analyzer@nightly", "tailwindcss", "svelte" },
       automatic_installation = true,
       handlers = {
         -- Default handler
@@ -34,6 +34,37 @@ return {
                     features = "all",
                   },
                 },
+              },
+            },
+          })
+        end,
+        ["tailwindcss"] = function()
+          require("lspconfig")["tailwindcss"].setup({
+            capabilities = require("configs.lsp").capabilities(),
+            on_attach = require("configs.lsp").on_attach,
+            root_dir = require("lspconfig").util.root_pattern(
+              "tailwind.config.js",
+              "tailwind.config.ts",
+              "tailwind.config.cjs"
+            ),
+            filetypes = {
+              "css",
+              "scss",
+              "sass",
+              "postcss",
+              "html",
+              "javascript",
+              "javascriptreact",
+              "typescript",
+              "typescriptreact",
+              "svelte",
+              "vue",
+              "rust",
+            },
+            init_options = {
+              userLanguages = {
+                svelte = "html",
+                vue = "html",
               },
             },
           })
