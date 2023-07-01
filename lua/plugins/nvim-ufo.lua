@@ -44,7 +44,10 @@ return {
       },
     },
     opts = {
-      provider_selector = function()
+      provider_selector = function(bufnr, filetype, buftype)
+        if filetype == "neo-tree" then
+          return ""
+        end
         return { "treesitter", "indent" }
       end,
       fold_virt_text_handler = function(virtText, lnum, endLnum, width, truncate)
