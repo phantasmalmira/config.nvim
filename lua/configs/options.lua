@@ -81,3 +81,13 @@ vim.fn.sign_define("DiagnosticSignHint", {
   numhl = "DiagnosticSignHint",
   texthl = "DiagnosticSignHint",
 })
+
+-- FIXME: this is a workaround for inconsistent file opening behavior on Windows
+if vim.fn.has("win32") then
+  local ori_fnameescape = vim.fn.fnameescape
+  ---@diagnostic disable-next-line: duplicate-set-field
+  vim.fn.fnameescape = function(...)
+    local result = ori_fnameescape(...)
+    return result:gsub("\\", "/")
+  end
+end
