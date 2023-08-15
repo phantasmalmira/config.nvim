@@ -1,6 +1,7 @@
 return {
   {
     "ggandor/flit.nvim",
+    cond = false,
     keys = function()
       ---@type LazyKeys[]
       local ret = {}
@@ -13,6 +14,7 @@ return {
   },
   {
     "ggandor/leap.nvim",
+    cond = false,
     dependencies = {
       "tpope/vim-repeat",
     },

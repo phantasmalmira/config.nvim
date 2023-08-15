@@ -10,6 +10,7 @@ vim.opt.scrolloff = 8
 vim.opt.wrap = true
 vim.opt.linebreak = true
 vim.opt.conceallevel = 3
+vim.opt.guifont = "Iosevka NFM:h18"
 
 -- Set default shell
 vim.opt.shell = "nu"
@@ -83,11 +84,11 @@ vim.fn.sign_define("DiagnosticSignHint", {
 })
 
 -- FIXME: this is a workaround for inconsistent file opening behavior on Windows
-if vim.fn.has("win32") then
-  local ori_fnameescape = vim.fn.fnameescape
-  ---@diagnostic disable-next-line: duplicate-set-field
-  vim.fn.fnameescape = function(...)
-    local result = ori_fnameescape(...)
-    return result:gsub("\\", "/")
-  end
-end
+-- if vim.fn.has("win32") then
+--   local ori_fnameescape = vim.fn.fnameescape
+--   ---@diagnostic disable-next-line: duplicate-set-field
+--   vim.fn.fnameescape = function(...)
+--     local result = ori_fnameescape(...)
+--     return result:gsub("\\", "/")
+--   end
+-- end

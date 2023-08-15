@@ -11,15 +11,15 @@ set("n", "<leader>gg", open_gitui, { desc = "GitUI", silent = true })
 
 -- Resizing splits
 local smart_splits = require("smart-splits")
-set("n", "<A-h>", smart_splits.resize_left, { desc = "Resize pane: Left" })
-set("n", "<A-j>", smart_splits.resize_down, { desc = "Resize pane: Down" })
-set("n", "<A-k>", smart_splits.resize_up, { desc = "Resize pane: Up" })
-set("n", "<A-l>", smart_splits.resize_right, { desc = "Resize pane: Right" })
+set({ "n", "t" }, "<A-h>", smart_splits.resize_left, { desc = "Resize pane: Left" })
+set({ "n", "t" }, "<A-j>", smart_splits.resize_down, { desc = "Resize pane: Down" })
+set({ "n", "t" }, "<A-k>", smart_splits.resize_up, { desc = "Resize pane: Up" })
+set({ "n", "t" }, "<A-l>", smart_splits.resize_right, { desc = "Resize pane: Right" })
 -- moving between splits
-set("n", "<C-h>", smart_splits.move_cursor_left, { desc = "Navigate pane: Right" })
-set("n", "<C-j>", smart_splits.move_cursor_down, { desc = "Navigate pane: Right" })
-set("n", "<C-k>", smart_splits.move_cursor_up, { desc = "Navigate pane: Right" })
-set("n", "<C-l>", smart_splits.move_cursor_right, { desc = "Navigate pane: Right" })
+set({ "n", "t" }, "<C-h>", smart_splits.move_cursor_left, { desc = "Navigate pane: Right" })
+set({ "n", "t" }, "<C-j>", smart_splits.move_cursor_down, { desc = "Navigate pane: Right" })
+set({ "n", "t" }, "<C-k>", smart_splits.move_cursor_up, { desc = "Navigate pane: Right" })
+set({ "n", "t" }, "<C-l>", smart_splits.move_cursor_right, { desc = "Navigate pane: Right" })
 
 set("c", "<S-Enter>", function()
   require("noice").redirect(vim.fn.getcmdline())
