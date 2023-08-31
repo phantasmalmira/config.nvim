@@ -7,40 +7,40 @@ return {
       local Mode = {
         static = {
           mode_names = {
-            n = "N",
-            no = "N?",
-            nov = "N?",
-            noV = "N?",
-            ["no\22"] = "N?",
-            niI = "Ni",
-            niR = "Nr",
-            niV = "Nv",
-            nt = "Nt",
-            v = "V",
-            vs = "Vs",
-            V = "V_",
-            Vs = "Vs",
-            ["\22"] = "^V",
-            ["\22s"] = "^V",
-            s = "S",
-            S = "S_",
-            ["\19"] = "^S",
-            i = "I",
-            ic = "Ic",
-            ix = "Ix",
-            R = "R",
-            Rc = "Rc",
-            Rx = "Rx",
-            Rv = "Rv",
-            Rvc = "Rv",
-            Rvx = "Rv",
-            c = "C",
-            cv = "Ex",
-            r = "...",
-            rm = "M",
-            ["r?"] = "?",
-            ["!"] = "!",
-            t = "T",
+            n = "NORMAL",
+            no = "NORMAL-O",
+            nov = "NORMAL-O-CHAR",
+            noV = "NORMAL-O-LINE",
+            ["no\22"] = "NORMAL-O-BLOCK",
+            niI = "NORMAL-I",
+            niR = "NORMAL-R",
+            niV = "NORMAL-V",
+            nt = "NORMAL-T",
+            v = "VISUAL",
+            vs = "VISUAL-S",
+            V = "LINE",
+            Vs = "LINE-S",
+            ["\22"] = "BLOCK",
+            ["\22s"] = "BLOCK-S",
+            s = "SELECT",
+            S = "SELECT-L",
+            ["\19"] = "SELECT-B",
+            i = "INSERT",
+            ic = "INSERT-C",
+            ix = "INSERT-X",
+            R = "REPLACE",
+            Rc = "REPLACE-C",
+            Rx = "REPLACE-X",
+            Rv = "REPLACE-V",
+            Rvc = "REPLACE-VC",
+            Rvx = "REPLACE-VX",
+            c = "COMMAND",
+            cv = "EX-COMMAND",
+            r = "ENTER?",
+            rm = "MORE",
+            ["r?"] = "CONFIRM?",
+            ["!"] = "SHELL",
+            t = "TERMINAL",
           },
           colors = {
             n = "blue",
@@ -81,7 +81,7 @@ return {
             return { fg = self.colors[mode], bold = true, reverse = true }
           end,
           provider = function(self)
-            return " " .. self.mode_names[self.mode]
+            return " " .. self.mode_names[self.mode]
           end,
         },
         {
@@ -92,7 +92,7 @@ return {
           end,
         },
         {
-          provider = " ",
+          provider = " ",
           hl = function(self)
             local mode = self.mode:sub(1, 1)
             return { fg = self.colors[mode] }
@@ -165,6 +165,37 @@ return {
         { -- Trim filename if statusline is too short
           provider = "%<",
         },
+      }
+
+      local WorkDir = {
+        init = function(self)
+          self.icon = " "
+          local cwd = vim.fn.getcwd(0)
+          self.cwd = vim.fn.fnamemodify(cwd, ":~")
+        end,
+        {
+          hl = function()
+            if conditions.is_git_repo() then
+              return { fg = "blue", bg = "orange" }
+            elseif conditions.lsp_attached() then
+              return { fg = "blue", bg = "green" }
+            else
+              return { fg = "blue", bg = "bright_bg" }
+            end
+          end,
+          provider = "",
+        },
+        {
+          -- evaluates to the shortened path
+          provider = function(self)
+            local folder_name = vim.fn.fnamemodify(self.cwd, ":t")
+            return " " .. self.icon .. folder_name .. " "
+          end,
+        },
+        {
+          provider = "%<",
+        },
+        hl = { bg = "blue", fg = "bright_bg", bold = true },
       }
 
       local Navic = {
@@ -263,13 +294,42 @@ return {
         update = "CursorMoved",
       }
 
+      local LspProgress = {
+        init = function(self)
+          self.progress = require("lsp-status").status_progress()
+        end,
+        {
+          condition = function(self)
+            return self.progress:len() > 0
+          end,
+          {
+            hl = { fg = "orange", bg = "green" },
+            provider = "",
+          },
+          {
+            provider = function(self)
+              return self.progress and self.progress .. " "
+            end,
+            hl = { bg = "orange", fg = "bright_bg", bold = true },
+          },
+        },
+      }
+
       local LspStatus = {
         condition = function()
           return conditions.lsp_attached()
         end,
         {
           hl = { fg = "green" },
-          provider = " LSP ",
+          provider = "",
+        },
+        {
+          hl = { bg = "green", fg = "bright_bg" },
+          { provider = " " },
+          {
+            hl = { bold = true },
+            provider = " LSP ",
+          },
           on_click = {
             callback = function()
               vim.defer_fn(function()
@@ -279,13 +339,6 @@ return {
             name = "heirline_lspinfo",
           },
         },
-        {
-          provider = function(self)
-            local progress = require("lsp-status").status_progress()
-            return progress and progress .. " "
-          end,
-          hl = { fg = "orange" },
-        },
       }
 
       local Diagnostics = {
@@ -293,10 +346,10 @@ return {
         condition = conditions.has_diagnostics,
 
         static = {
-          error_icon = vim.fn.sign_getdefined("DiagnosticSignError")[1].text,
-          warn_icon = vim.fn.sign_getdefined("DiagnosticSignWarn")[1].text,
-          info_icon = vim.fn.sign_getdefined("DiagnosticSignInfo")[1].text,
-          hint_icon = vim.fn.sign_getdefined("DiagnosticSignHint")[1].text,
+          error_icon = " ",
+          warn_icon = " ",
+          info_icon = " ",
+          hint_icon = " ",
         },
 
         init = function(self)
@@ -337,6 +390,35 @@ return {
         { provider = " " },
       }
 
+      local GitStats = {
+        condition = conditions.is_git_repo,
+        -- You could handle delimiters, icons and counts similar to Diagnostics
+        init = function(self)
+          self.status_dict = vim.b.gitsigns_status_dict
+        end,
+        {
+          provider = function(self)
+            local count = self.status_dict.added or 0
+            return count > 0 and (" " .. count .. " ")
+          end,
+          hl = { fg = "git_add" },
+        },
+        {
+          provider = function(self)
+            local count = self.status_dict.removed or 0
+            return count > 0 and (" " .. count .. " ")
+          end,
+          hl = { fg = "git_del" },
+        },
+        {
+          provider = function(self)
+            local count = self.status_dict.changed or 0
+            return count > 0 and (" " .. count .. " ")
+          end,
+          hl = { fg = "git_change" },
+        },
+      }
+
       local Git = {
         condition = conditions.is_git_repo,
 
@@ -346,64 +428,45 @@ return {
             or self.status_dict.removed ~= 0
             or self.status_dict.changed ~= 0
         end,
+        {
+          hl = { fg = "orange", bg = "green" },
+          provider = "",
+        },
 
-        hl = { fg = "orange" },
-
-        { -- git branch name
-          provider = function(self)
-            return " " .. self.status_dict.head
-          end,
-          hl = { bold = true },
-        },
-        -- You could handle delimiters, icons and counts similar to Diagnostics
         {
-          condition = function(self)
-            return self.has_changes
-          end,
-          provider = "(",
-        },
-        {
-          provider = function(self)
-            local count = self.status_dict.added or 0
-            return count > 0 and ("+" .. count)
-          end,
-          hl = { fg = "git_add" },
-        },
-        {
-          provider = function(self)
-            local count = self.status_dict.removed or 0
-            return count > 0 and ("-" .. count)
-          end,
-          hl = { fg = "git_del" },
-        },
-        {
-          provider = function(self)
-            local count = self.status_dict.changed or 0
-            return count > 0 and ("~" .. count)
-          end,
-          hl = { fg = "git_change" },
-        },
-        {
-          condition = function(self)
-            return self.has_changes
-          end,
-          provider = ")",
+          hl = { bg = "orange", fg = "bright_bg" },
+          { provider = "  " },
+          { -- git branch name
+            provider = function(self)
+              return self.status_dict.head .. " "
+            end,
+            hl = { bold = true },
+          },
         },
       }
 
       local Ruler = {
-        provider = "%7(%l/%3L%):%2c %P ",
+        provider = "%P %7(%l/%3L%):%-2c ",
+        hl = { fg = "gray" },
       }
       local StatusLine = {
-        Mode,
-        MacroRecorder,
-        BufName,
-        Navic,
+        {
+          Mode,
+          Ruler,
+          MacroRecorder,
+        },
         { provider = "%=" },
-        LspStatus,
-        Diagnostics,
-        Git,
-        Ruler,
+        {
+          BufName,
+          Diagnostics,
+        },
+        { provider = "%=" },
+        {
+          GitStats,
+          LspStatus,
+          Git,
+          WorkDir,
+        },
         hl = "Normal",
         condition = function()
           return not conditions.buffer_matches({
