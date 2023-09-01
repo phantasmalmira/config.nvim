@@ -79,5 +79,14 @@ return {
       "williamboman/mason-lspconfig.nvim",
       "folke/neoconf.nvim",
     },
+    init = function()
+      require("configs.lsp").register_on_attach(function(client, bufnr)
+        if vim.lsp.inlay_hint then
+          if client.server_capabilities.inlayHintProvider then
+            vim.lsp.inlay_hint(bufnr, true)
+          end
+        end
+      end)
+    end,
   },
 }

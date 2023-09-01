@@ -2,6 +2,7 @@ return {
   {
     "KostkaBrukowa/definition-or-references.nvim",
     lazy = true,
+    cond = false,
     dependencies = {
       "nvim-telescope/telescope.nvim",
     },

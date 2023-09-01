@@ -33,10 +33,23 @@ M.keymaps = {
   { "K", vim.lsp.buf.hover, desc = "LSP: Hover" },
   {
     "gd",
-    function()
-      require("definition-or-references").definition_or_references()
-    end,
-    desc = "LSP: Definition / References",
+    ":Glance definitions<CR>",
+    desc = "LSP: Definition",
+  },
+  {
+    "gr",
+    ":Glance references<CR>",
+    desc = "LSP: References",
+  },
+  {
+    "gt",
+    ":Glance type_definitions<CR>",
+    desc = "LSP: Type definitions",
+  },
+  {
+    "gi",
+    ":Glance implementations<CR>",
+    desc = "LSP: Implementations",
   },
   {
     "<leader>cr",

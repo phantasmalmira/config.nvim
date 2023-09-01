@@ -169,7 +169,7 @@ return {
 
       local WorkDir = {
         init = function(self)
-          self.icon = " "
+          self.icon = " "
           local cwd = vim.fn.getcwd(0)
           self.cwd = vim.fn.fnamemodify(cwd, ":~")
         end,
