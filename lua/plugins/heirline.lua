@@ -112,17 +112,25 @@ return {
           provider = "",
         },
         {
-          -- evaluates to the shortened path
-          provider = function(self)
-            local folder_name = vim.fn.fnamemodify(self.cwd, ":t")
-            return " " .. self.icon .. folder_name .. " "
-          end,
+          {
+            provider = function(self)
+              return " " .. self.icon
+            end,
+          },
+          {
+            -- evaluates to the shortened path
+            provider = function(self)
+              local folder_name = vim.fn.fnamemodify(self.cwd, ":t")
+              return folder_name .. " "
+            end,
+          },
+          hl = { bold = true },
         },
         {
           provider = "%<",
         },
         hl = function(self)
-          return vim.tbl_extend("force", utils.get_highlight(self.colors[self.mode_short]), { bold = true })
+          return self.colors[self.mode_short]
         end,
       }
 
@@ -255,7 +263,7 @@ return {
         },
         {
           hl = "HeirlineStatusLsp",
-          { provider = " " },
+          { provider = " ", hl = { bold = true } },
           {
             hl = { bold = true },
             provider = " LSP ",
@@ -369,7 +377,7 @@ return {
 
         {
           hl = "HeirlineStatusGit",
-          { provider = "  " },
+          { provider = "  ", hl = { bold = true } },
           { -- git branch name
             provider = function(self)
               return self.status_dict.head .. " "
