@@ -11,6 +11,11 @@ return {
       custom_highlights = function()
         local colors = require("catppuccin.palettes").get_palette()
         return {
+          LspInlayHint = {
+            bg = colors.surface1,
+            fg = colors.flamingo,
+            italic = true,
+          },
           Folded = {
             bg = colors.crust,
           },

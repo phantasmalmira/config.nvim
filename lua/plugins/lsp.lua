@@ -12,7 +12,7 @@ return {
     },
     lazy = true,
     opts = {
-      ensure_installed = { "lua_ls", "rust_analyzer@nightly", "tailwindcss", "svelte" },
+      ensure_installed = { "lua_ls", "rust_analyzer@nightly", "tailwindcss", "svelte", "tsserver" },
       automatic_installation = true,
       handlers = {
         -- Default handler
@@ -20,6 +20,39 @@ return {
           require("lspconfig")[server_name].setup({
             capabilities = require("configs.lsp").capabilities(),
             on_attach = require("configs.lsp").on_attach,
+          })
+        end,
+        ["lua_ls"] = function()
+          require("lspconfig")["lua_ls"].setup({
+            capabilities = require("configs.lsp").capabilities(),
+            on_attach = require("configs.lsp").on_attach,
+            settings = {
+              Lua = {
+                hint = {
+                  enable = true,
+                  setType = true,
+                  arrayIndex = "Disable",
+                },
+              },
+            },
+          })
+        end,
+        ["tsserver"] = function()
+          require("lspconfig")["tsserver"].setup({
+            capabilities = require("configs.lsp").capabilities(),
+            on_attach = require("configs.lsp").on_attach,
+            init_options = {
+              preferences = {
+                includeInlayParameterNameHints = "all",
+                includeInlayParameterNameHintsWhenArgumentMatchesName = true,
+                includeInlayFunctionParameterTypeHints = true,
+                includeInlayVariableTypeHints = true,
+                includeInlayPropertyDeclarationTypeHints = true,
+                includeInlayFunctionLikeReturnTypeHints = true,
+                includeInlayEnumMemberValueHints = true,
+                importModuleSpecifierPreference = "non-relative",
+              },
+            },
           })
         end,
         ["rust_analyzer"] = function()

@@ -9,6 +9,13 @@ return {
       context_commentstring = {
         enable = true,
       },
+      ensure_installed = {
+        "lua",
+        "javascript",
+        "typescript",
+        "jsdoc",
+        "json",
+      },
     },
     dependencies = {
       "JoosepAlviste/nvim-ts-context-commentstring",
