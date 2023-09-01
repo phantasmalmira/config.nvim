@@ -5,97 +5,22 @@ return {
       local conditions = require("heirline.conditions")
       local utils = require("heirline.utils")
       local Mode = {
-        static = {
-          mode_names = {
-            n = "NORMAL",
-            no = "NORMAL-O",
-            nov = "NORMAL-O-CHAR",
-            noV = "NORMAL-O-LINE",
-            ["no\22"] = "NORMAL-O-BLOCK",
-            niI = "NORMAL-I",
-            niR = "NORMAL-R",
-            niV = "NORMAL-V",
-            nt = "NORMAL-T",
-            v = "VISUAL",
-            vs = "VISUAL-S",
-            V = "LINE",
-            Vs = "LINE-S",
-            ["\22"] = "BLOCK",
-            ["\22s"] = "BLOCK-S",
-            s = "SELECT",
-            S = "SELECT-L",
-            ["\19"] = "SELECT-B",
-            i = "INSERT",
-            ic = "INSERT-C",
-            ix = "INSERT-X",
-            R = "REPLACE",
-            Rc = "REPLACE-C",
-            Rx = "REPLACE-X",
-            Rv = "REPLACE-V",
-            Rvc = "REPLACE-VC",
-            Rvx = "REPLACE-VX",
-            c = "COMMAND",
-            cv = "EX-COMMAND",
-            r = "ENTER?",
-            rm = "MORE",
-            ["r?"] = "CONFIRM?",
-            ["!"] = "SHELL",
-            t = "TERMINAL",
-          },
-          colors = {
-            n = "blue",
-            i = "green",
-            v = "purple",
-            V = "purple",
-            ["\22"] = "purple",
-            c = "orange",
-            s = "red",
-            S = "red",
-            ["\19"] = "red",
-            R = "red",
-            r = "red",
-            ["!"] = "green",
-            t = "green",
-          },
-        },
-        init = function(self)
-          self.mode = vim.fn.mode(1)
-        end,
-        update = {
-          "ModeChanged",
-          pattern = "*:*",
-          callback = vim.schedule_wrap(function()
-            vim.cmd("redrawstatus")
-          end),
-        },
-        {
-          provider = " ",
-          hl = function(self)
-            local mode = self.mode:sub(1, 1)
-            return { bg = self.colors[mode] }
-          end,
-        },
         {
           hl = function(self)
-            local mode = self.mode:sub(1, 1)
-            return { fg = self.colors[mode], bold = true, reverse = true }
+            return vim.tbl_extend("force", utils.get_highlight(self.colors[self.mode_short]), { bold = true })
           end,
           provider = function(self)
-            return " " .. self.mode_names[self.mode]
-          end,
-        },
-        {
-          provider = " ",
-          hl = function(self)
-            local mode = self.mode:sub(1, 1)
-            return { bg = self.colors[mode] }
+            return "  " .. self.mode_names[self.mode] .. " "
           end,
         },
         {
           provider = " ",
           hl = function(self)
-            local mode = self.mode:sub(1, 1)
-            return { fg = self.colors[mode] }
+            return vim.tbl_extend(
+              "force",
+              utils.get_highlight(self.colors[self.mode_short]),
+              { reverse = true, fg = utils.get_highlight("Normal").bg }
+            )
           end,
         },
       }
@@ -174,13 +99,14 @@ return {
           self.cwd = vim.fn.fnamemodify(cwd, ":~")
         end,
         {
-          hl = function()
+          hl = function(self)
+            local fg = utils.get_highlight(self.colors[self.mode_short]).bg
             if conditions.is_git_repo() then
-              return { fg = "blue", bg = "orange" }
+              return { fg = fg, bg = utils.get_highlight("HeirlineStatusGit").bg }
             elseif conditions.lsp_attached() then
-              return { fg = "blue", bg = "green" }
+              return { fg = fg, bg = utils.get_highlight("HeirlineStatusLsp").bg }
             else
-              return { fg = "blue", bg = "bright_bg" }
+              return { fg = fg, bg = utils.get_highlight("Normal").bg }
             end
           end,
           provider = "",
@@ -195,7 +121,9 @@ return {
         {
           provider = "%<",
         },
-        hl = { bg = "blue", fg = "bright_bg", bold = true },
+        hl = function(self)
+          return vim.tbl_extend("force", utils.get_highlight(self.colors[self.mode_short]), { bold = true })
+        end,
       }
 
       local Navic = {
@@ -320,11 +248,13 @@ return {
           return conditions.lsp_attached()
         end,
         {
-          hl = { fg = "green" },
+          hl = function()
+            return { fg = utils.get_highlight("HeirlineStatusLsp").bg }
+          end,
           provider = "",
         },
         {
-          hl = { bg = "green", fg = "bright_bg" },
+          hl = "HeirlineStatusLsp",
           { provider = " " },
           {
             hl = { bold = true },
@@ -429,12 +359,16 @@ return {
             or self.status_dict.changed ~= 0
         end,
         {
-          hl = { fg = "orange", bg = "green" },
+          hl = function()
+            local bg = conditions.lsp_attached() and utils.get_highlight("HeirlineStatusLsp").bg
+              or utils.get_highlight("Normal").bg
+            return { fg = utils.get_highlight("HeirlineStatusGit").bg, bg = bg }
+          end,
           provider = "",
         },
 
         {
-          hl = { bg = "orange", fg = "bright_bg" },
+          hl = "HeirlineStatusGit",
           { provider = "  " },
           { -- git branch name
             provider = function(self)
@@ -450,6 +384,70 @@ return {
         hl = { fg = "gray" },
       }
       local StatusLine = {
+        static = {
+          mode_names = {
+            n = "NORMAL",
+            no = "NORMAL-O",
+            nov = "NORMAL-O-CHAR",
+            noV = "NORMAL-O-LINE",
+            ["no\22"] = "NORMAL-O-BLOCK",
+            niI = "NORMAL-I",
+            niR = "NORMAL-R",
+            niV = "NORMAL-V",
+            nt = "NORMAL-T",
+            v = "VISUAL",
+            vs = "VISUAL-S",
+            V = "LINE",
+            Vs = "LINE-S",
+            ["\22"] = "BLOCK",
+            ["\22s"] = "BLOCK-S",
+            s = "SELECT",
+            S = "SELECT-L",
+            ["\19"] = "SELECT-B",
+            i = "INSERT",
+            ic = "INSERT-C",
+            ix = "INSERT-X",
+            R = "REPLACE",
+            Rc = "REPLACE-C",
+            Rx = "REPLACE-X",
+            Rv = "REPLACE-V",
+            Rvc = "REPLACE-VC",
+            Rvx = "REPLACE-VX",
+            c = "COMMAND",
+            cv = "EX-COMMAND",
+            r = "ENTER?",
+            rm = "MORE",
+            ["r?"] = "CONFIRM?",
+            ["!"] = "SHELL",
+            t = "TERMINAL",
+          },
+          colors = {
+            n = "HeirlineStatusNormal",
+            i = "HeirlineStatusInsert",
+            v = "HeirlineStatusVisual",
+            V = "HeirlineStatusVisual",
+            ["\22"] = "HeirlineStatusVisual",
+            c = "HeirlineStatusCommand",
+            s = "HeirlineStatusSelect",
+            S = "HeirlineStatusSelect",
+            ["\19"] = "HeirlineStatusSelect",
+            R = "HeirlineStatusReplace",
+            r = "HeirlinerStatusReplace",
+            ["!"] = "HeirlineStatusShell",
+            t = "HeirlineStatusTerminal",
+          },
+        },
+        init = function(self)
+          self.mode = vim.fn.mode(1)
+          self.mode_short = self.mode:sub(1, 1)
+        end,
+        update = {
+          "ModeChanged",
+          pattern = "*:*",
+          callback = vim.schedule_wrap(function()
+            vim.cmd("redrawstatus")
+          end),
+        },
         {
           Mode,
           Ruler,
@@ -681,6 +679,16 @@ return {
           git_del = utils.get_highlight("DiagnosticError").fg,
           git_add = utils.get_highlight("String").fg,
           git_change = utils.get_highlight("DiagnosticWarn").fg,
+          status_normal = utils.get_highlight("HeirlineStatusNormal"),
+          status_insert = utils.get_highlight("HeirlineStatusInsert"),
+          status_visual = utils.get_highlight("HeirlineStatusVisual"),
+          status_replace = utils.get_highlight("HeirlineStatusReplace"),
+          status_command = utils.get_highlight("HeirlineStatusCommand"),
+          status_select = utils.get_highlight("HeirlineStatusSelect"),
+          status_shell = utils.get_highlight("HeirlineStatusShell"),
+          status_terminal = utils.get_highlight("HeirlineStatusTerminal"),
+          status_git = utils.get_highlight("HeirlineStatusGit"),
+          status_lsp = utils.get_highlight("HeirlineStatusLsp"),
         }
         return colors
       end
