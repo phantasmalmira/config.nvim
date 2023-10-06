@@ -45,6 +45,14 @@ return {
         desc = "Find in buffer",
         silent = true,
       },
+      {
+        "<leader>fr",
+        function()
+          require("telescope.builtin").resume()
+        end,
+        desc = "Find resume",
+        silent = true,
+      },
     },
     dependencies = {
       "nvim-lua/plenary.nvim",
