@@ -90,16 +90,7 @@ M.on_attach = function(client, buffer)
   local Keys = require("lazy.core.handler.keys")
   local keymaps = {} ---@type table<string,LazyKeys|{has?:string}>
 
-  for _, value in ipairs(M.keymaps) do
-    local keys = Keys.parse(value)
-    if keys[2] == vim.NIL or keys[2] == false then
-      keymaps[keys.id] = nil
-    else
-      keymaps[keys.id] = keys
-    end
-  end
-
-  for _, keys in pairs(keymaps) do
+  for _, keys in pairs(M.keymaps) do
     if not keys.has or client.server_capabilities[keys.has .. "Provider"] then
       local opts = Keys.opts(keys)
       ---@diagnostic disable-next-line: no-unknown

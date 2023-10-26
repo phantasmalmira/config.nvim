@@ -23,6 +23,7 @@ return {
     },
     build = ":TSUpdate",
     event = { "BufReadPost", "BufNewFile" },
+    cmd = { "TSInstall", "TSUpdate" },
     config = function(_, opts)
       require("nvim-treesitter.configs").setup(opts)
     end,
